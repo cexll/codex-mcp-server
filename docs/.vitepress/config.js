@@ -50,6 +50,7 @@ export default withMermaid(
         items: [
           { text: 'How It Works', link: '/concepts/how-it-works' },
           { text: 'File Analysis (@)', link: '/concepts/file-analysis' },
+          { text: 'Change Mode Format', link: '/concepts/change-mode' },
           { text: 'Model Selection', link: '/concepts/models' },
           { text: 'Sandbox Modes', link: '/concepts/sandbox' },
           { text: 'Authentication', link: '/authentication' }
