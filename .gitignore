@@ -1,0 +1,20 @@
+node_modules/
+dist/
+*.log
+.env
+.DS_Store
+*.swp
+*.swo
+.vscode/
+.idea/
+.npmignore
+
+
+# Docs Site
+docs/.vitepress/cache/
+docs/.vitepress/dist/
+
+# Desktop Extension build artifacts
+*.dxt
+extension-build/
+CLAUDE.md

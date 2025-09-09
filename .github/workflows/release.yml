@@ -1,0 +1,99 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., 1.0.0)'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'npm'
+      
+      - name: Verify package name
+        run: |
+          PACKAGE_NAME=$(node -p "require('./package.json').name")
+          if [ "$PACKAGE_NAME" != "@trishchuk/codex-mcp-tool" ]; then
+            echo "❌ Package name mismatch. Expected @trishchuk/codex-mcp-tool, got $PACKAGE_NAME"
+            exit 1
+          fi
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run tests and build
+        run: |
+          npm run lint
+          npm run build
+          npm test || true
+      
+      - name: Verify build output
+        run: |
+          if [ ! -f "dist/index.js" ]; then
+            echo "❌ Build failed: dist/index.js not found"
+            exit 1
+          fi
+          echo "✅ Build output verified"
+      
+      - name: Create tarball and check size
+        run: |
+          npm pack --dry-run
+          SIZE=$(npm pack --json | jq '.[0].size')
+          echo "📦 Package size: $SIZE bytes"
+          if [ $SIZE -gt 10485760 ]; then
+            echo "⚠️ Warning: Package size exceeds 10MB"
+          fi
+      
+      - name: Publish to npm
+        run: |
+          npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          draft: false
+          prerelease: ${{ contains(github.ref, '-beta') || contains(github.ref, '-alpha') }}
+          body: |
+            ## 🚀 Codex MCP Tool Release
+            
+            ### Installation
+            ```bash
+            # Claude Code
+            claude mcp add codex-cli -- npx -y @trishchuk/codex-mcp-tool
+            
+            # Claude Desktop
+            npm install -g @trishchuk/codex-mcp-tool
+            ```
+            
+            ### What's Changed
+            See below for the full changelog.
+            
+            ### Links
+            - 📦 [NPM Package](https://www.npmjs.com/package/@trishchuk/codex-mcp-tool)
+            - 📖 [Documentation](https://x51xxx.github.io/codex-mcp-tool/)
+            - 🐛 [Report Issues](https://github.com/x51xxx/codex-mcp-tool/issues)

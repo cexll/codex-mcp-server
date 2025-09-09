@@ -1,0 +1,72 @@
+{
+  "name": "@trishchuk/codex-mcp-tool",
+  "version": "1.0.0",
+  "description": "MCP server for Codex CLI integration",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "codex-mcp": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsc && node dist/index.js",
+    "test": "echo \"No tests yet\" && exit 0",
+    "lint": "tsc --noEmit",
+    "prepublishOnly": "echo '⚠️  Remember to test locally first!' && npm run build",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "keywords": [
+    "mcp",
+    "modelcontextprotocol",
+    "codex",
+    "cli",
+    "ai",
+    "llm",
+    "server",
+    "tool",
+    "typescript",
+    "nodejs",
+    "integration",
+    "automation"
+  ],
+  "author": "Taras Trishchuk",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/x51xxx/codex-mcp-tool.git"
+  },
+  "bugs": {
+    "url": "https://github.com/x51xxx/codex-mcp-tool/issues"
+  },
+  "homepage": "https://github.com/x51xxx/codex-mcp-tool#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.6.1",
+    "zod": "^3.25.76",
+    "zod-to-json-schema": "^3.24.6"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.0",
+    "@types/node": "^18.19.124",
+    "archiver": "^7.0.1",
+    "mermaid": "^11.9.0",
+    "tsx": "^4.20.5",
+    "typescript": "^5.0.0",
+    "vitepress": "^1.6.4",
+    "vitepress-plugin-mermaid": "^2.0.17",
+    "prismjs": "^1.30.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

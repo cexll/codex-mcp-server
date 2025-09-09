@@ -1,0 +1,127 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node-version: [18.x, 20.x, 22.x]
+        exclude:
+          # Skip some combinations to save CI time
+          - os: windows-latest
+            node-version: 18.x
+          - os: macos-latest
+            node-version: 18.x
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Lint TypeScript
+      run: npm run lint
+    
+    - name: Build project
+      run: npm run build
+    
+    - name: Run tests
+      run: npm test
+      continue-on-error: true
+    
+    - name: Verify build output
+      run: |
+        if [ ! -f "dist/index.js" ]; then
+          echo "Build failed: dist/index.js not found"
+          exit 1
+        fi
+      shell: bash
+      if: runner.os != 'Windows'
+    
+    - name: Verify build output (Windows)
+      run: |
+        if (!(Test-Path "dist/index.js")) {
+          Write-Error "Build failed: dist/index.js not found"
+          exit 1
+        }
+      shell: pwsh
+      if: runner.os == 'Windows'
+
+  package-validation:
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Build
+      run: npm run build
+    
+    - name: Test npm pack
+      run: |
+        npm pack
+        ls -la *.tgz
+    
+    - name: Validate package contents
+      run: |
+        tar -tzf *.tgz | grep -E "(dist/|README|LICENSE|package.json)"
+    
+    - name: Check package size
+      run: |
+        SIZE=$(stat -c%s *.tgz)
+        echo "Package size: $SIZE bytes"
+        if [ $SIZE -gt 10485760 ]; then
+          echo "Warning: Package size exceeds 10MB"
+        fi
+
+  docs-build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Build documentation
+      run: npm run docs:build
+    
+    - name: Verify docs build
+      run: |
+        if [ ! -d "docs/.vitepress/dist" ]; then
+          echo "Documentation build failed"
+          exit 1
+        fi

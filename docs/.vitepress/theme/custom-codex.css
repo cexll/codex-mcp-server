@@ -1,0 +1,339 @@
+/**
+ * Codex MCP Tool - Custom Theme Styles
+ * Enhances VitePress default theme with Codex branding
+ */
+
+:root {
+  /* Brand Colors */
+  --codex-primary: #0ea5e9;
+  --codex-primary-dark: #0284c7;
+  --codex-secondary: #8b5cf6;
+  --codex-accent: #f97316;
+  --codex-success: #10b981;
+  --codex-warning: #f59e0b;
+  --codex-error: #ef4444;
+  
+  /* Override VitePress brand colors */
+  --vp-c-brand-1: var(--codex-primary);
+  --vp-c-brand-2: var(--codex-primary-dark);
+  --vp-c-brand-3: var(--codex-secondary);
+  --vp-c-brand-soft: rgba(14, 165, 233, 0.14);
+  
+  /* Home hero gradient */
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: linear-gradient(
+    120deg,
+    var(--codex-primary) 30%,
+    var(--codex-secondary)
+  );
+  
+  /* Button styles */
+  --vp-button-brand-border: transparent;
+  --vp-button-brand-bg: var(--codex-primary);
+  --vp-button-brand-hover-border: transparent;
+  --vp-button-brand-hover-bg: var(--codex-primary-dark);
+  --vp-button-brand-active-border: transparent;
+  --vp-button-brand-active-bg: var(--codex-primary-dark);
+}
+
+.dark {
+  --vp-c-brand-1: #3dd5f3;
+  --vp-c-brand-2: #0ea5e9;
+  --vp-c-brand-3: #a78bfa;
+  --vp-c-brand-soft: rgba(61, 213, 243, 0.16);
+}
+
+/* Hero section enhancements */
+.VPHero .name {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.VPHero .tagline {
+  font-size: 1.3rem;
+  opacity: 0.9;
+  line-height: 1.5;
+}
+
+/* Feature cards with hover effects */
+.VPFeature {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.VPFeature:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+.dark .VPFeature:hover {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* Code blocks styling */
+div[class*='language-'] {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+div[class*='language-']::before {
+  content: attr(data-lang);
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 0.75rem;
+  color: var(--vp-c-text-3);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* Custom tool cards */
+.tool-card {
+  padding: 1.5rem;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 12px;
+  margin: 1rem 0;
+  background: var(--vp-c-bg-soft);
+  transition: all 0.3s ease;
+}
+
+.tool-card:hover {
+  border-color: var(--codex-primary);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.1);
+}
+
+.tool-card h4 {
+  color: var(--codex-primary);
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tool-card code {
+  background: var(--vp-c-brand-soft);
+  color: var(--codex-primary);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+/* Installation steps */
+.installation-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.installation-step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--codex-primary);
+  color: white;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* Client grid cards (from getting-started) */
+.client-card {
+  padding: 1.5rem;
+  border: 2px solid var(--vp-c-divider);
+  border-radius: 12px;
+  text-align: center;
+  transition: all 0.3s ease;
+  background: var(--vp-c-bg);
+}
+
+.client-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--codex-primary);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.client-card--recommended {
+  border-color: var(--codex-primary);
+  position: relative;
+  background: linear-gradient(135deg, var(--vp-c-bg) 0%, var(--vp-c-brand-soft) 100%);
+}
+
+.client-card--recommended::before {
+  content: 'RECOMMENDED';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--codex-primary);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.client-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  background: var(--vp-c-brand-soft);
+  color: var(--codex-primary);
+  border-radius: 4px;
+  font-size: 0.85rem;
+  margin: 0.5rem 0;
+}
+
+.client-button {
+  display: inline-block;
+  padding: 8px 16px;
+  background: var(--codex-primary);
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.2s ease;
+  margin-top: 1rem;
+}
+
+.client-button:hover {
+  background: var(--codex-primary-dark);
+}
+
+/* Ensure VitePress link styles don't override button text color */
+.vp-doc a.client-button {
+  color: #ffffff !important;
+  text-decoration: none;
+}
+.dark .vp-doc a.client-button {
+  color: #ffffff !important;
+}
+
+/* Warning/Info boxes enhancement */
+.custom-block.warning {
+  border-color: var(--codex-warning);
+  background-color: rgba(245, 158, 11, 0.05);
+}
+
+.custom-block.tip {
+  border-color: var(--codex-success);
+  background-color: rgba(16, 185, 129, 0.05);
+}
+
+.custom-block.danger {
+  border-color: var(--codex-error);
+  background-color: rgba(239, 68, 68, 0.05);
+}
+
+/* Sidebar enhancements */
+.VPSidebar {
+  padding-top: 1rem;
+}
+
+.VPSidebarItem.is-active > .item > .link > .text {
+  color: var(--codex-primary);
+  font-weight: 600;
+}
+
+/* Search box styling */
+.VPNavBarSearch {
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  transition: border-color 0.2s ease;
+  margin-left: 16px;
+}
+
+.VPNavBarSearch:hover {
+  border-color: var(--codex-primary);
+}
+
+/* Footer enhancement */
+.VPFooter {
+  border-top: 1px solid var(--vp-c-divider);
+  padding: 2rem 0;
+  margin-top: 4rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .client-card {
+    margin: 1rem 0;
+  }
+  
+  .tool-card {
+    padding: 1rem;
+  }
+}
+
+/* Animation for loading states */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.loading {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--vp-c-bg-soft);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--vp-c-divider);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--codex-primary);
+}
+
+/* Code snippet copy button enhancement */
+div[class*='language-'] .copy {
+  background-color: var(--vp-c-bg-soft);
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+div[class*='language-'] .copy:hover {
+  background-color: var(--codex-primary);
+  border-color: var(--codex-primary);
+}
+
+/* Badge styles for tool categories */
+.tool-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tool-badge.core {
+  background: var(--codex-success);
+  color: white;
+}
+
+.tool-badge.advanced {
+  background: var(--codex-secondary);
+  color: white;
+}
+
+.tool-badge.utility {
+  background: var(--codex-accent);
+  color: white;
+}
