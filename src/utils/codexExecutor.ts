@@ -73,10 +73,9 @@ export async function executeCodexCLI(
     args.push(CLI.FLAGS.CD, options.cd);
   }
 
-  args.push(CLI.FLAGS.SKIP_GIT_REPO_CHECK);
-
   // Non-interactive run
   args.push('exec');
+  args.push(CLI.FLAGS.SKIP_GIT_REPO_CHECK);
   
   // Add conciseness instruction
   const concisePrompt = `Please provide a focused, concise response without unnecessary elaboration. ${prompt}`;
