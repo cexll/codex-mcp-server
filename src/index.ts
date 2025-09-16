@@ -7,10 +7,12 @@ import {
     ListToolsRequestSchema,
     ListPromptsRequestSchema,
     GetPromptRequestSchema,
+    SetLevelRequestSchema,
     CallToolRequest,
     ListToolsRequest,
     ListPromptsRequest,
     GetPromptRequest,
+    SetLevelRequest,
     Tool,
     Prompt,
     GetPromptResult,
@@ -155,6 +157,13 @@ function stopProgressUpdates(
         );
     }
 }
+
+// logging/setLevel
+server.setRequestHandler(SetLevelRequestSchema, async (request: SetLevelRequest): Promise<Record<string, never>> => {
+    Logger.setLevel(request.params.level);
+    Logger.debug(`Log level updated to '${request.params.level}' via client request.`);
+    return {};
+});
 
 // tools/list
 server.setRequestHandler(ListToolsRequestSchema, async (request: ListToolsRequest): Promise<{ tools: Tool[] }> => {
