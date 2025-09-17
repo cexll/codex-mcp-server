@@ -110,6 +110,25 @@ After updating the configuration, restart your terminal session.
 
 ## Usage Examples
 
+### Model Selection
+
+```javascript
+// Use the default gpt-5-codex model
+"explain the architecture of @src/"
+
+// Use gpt-5 for fast general purpose reasoning
+"use codex with model gpt-5 to analyze @config.json"
+
+// Use o3 for deep reasoning tasks
+"use codex with model o3 to analyze complex algorithm in @algorithm.py"
+
+// Use o4-mini for quick tasks
+"use codex with model o4-mini to add comments to @utils.js"
+
+// Use codex-1 for software engineering
+"use codex with model codex-1 to refactor @legacy-code.js"
+```
+
 ### With File References (using @ syntax)
 
 - `ask codex to analyze @src/main.ts and explain what it does`
@@ -153,9 +172,16 @@ These tools are designed to be used by the AI assistant.
 
 #### Core Tools
 
-- **`ask-codex`**: Sends a prompt to Codex via `codex exec`. 
+- **`ask-codex`**: Sends a prompt to Codex via `codex exec`.
   - Supports `@` file references for including file content
-  - Optional `model` parameter (e.g., `gpt-5`)
+  - Optional `model` parameter - available models:
+    - `gpt-5-codex` (default, optimized for coding)
+    - `gpt-5` (general purpose, fast reasoning)
+    - `o3` (smartest, deep reasoning)
+    - `o4-mini` (fast & efficient)
+    - `codex-1` (o3-based for software engineering)
+    - `codex-mini-latest` (low-latency code Q&A)
+    - `gpt-4.1` (also available)
   - `sandbox=true` enables `--full-auto` mode
   - `changeMode=true` returns structured OLD/NEW edits
   - Supports approval policies and sandbox modes
@@ -163,6 +189,7 @@ These tools are designed to be used by the AI assistant.
 - **`brainstorm`**: Generate novel ideas with structured methodologies.
   - Multiple frameworks: divergent, convergent, SCAMPER, design-thinking, lateral
   - Domain-specific context (software, business, creative, research, product, marketing)
+  - Supports same models as `ask-codex` (default: `gpt-5-codex`)
   - Configurable idea count and analysis depth
   - Includes feasibility, impact, and innovation scoring
   - Example: `brainstorm prompt:"ways to improve code review process" domain:"software" methodology:"scamper"`

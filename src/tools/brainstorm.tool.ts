@@ -98,27 +98,27 @@ ${domain ? `Given the ${domain} domain, I'll apply the most effective combinatio
 }
 
 const brainstormArgsSchema = z.object({
-  prompt: z.string().min(1).describe("Primary brainstorming challenge or question to explore"),
-  model: z.string().optional().describe("AI model: 'gpt-5' (400K context, best for complex ideation), 'o3' (200K, deep creative reasoning), 'o4-mini' (200K, quick brainstorming). Default: gpt-5"),
-  approvalPolicy: z.enum(['never','on-request','on-failure','untrusted']).optional().describe("When to ask for approval: 'never' (fastest), 'on-request' (model decides), 'on-failure' (on errors), 'untrusted' (always ask)."),
-  sandboxMode: z.enum(['read-only','workspace-write','danger-full-access']).optional().describe("File system access: 'read-only' (safest), 'workspace-write' (can modify project files), 'danger-full-access' (unrestricted - use with caution!)."),
-  fullAuto: z.boolean().optional().describe("Full automation: workspace-write sandbox + on-failure approval. Safe for trusted operations."),
-  yolo: z.boolean().optional().describe("DANGEROUS: Bypass ALL safety measures. No sandbox, no approvals. Use only in isolated environments!"),
-  cd: z.string().optional().describe("Working directory for Codex (--cd)."),
-  methodology: z.enum(['divergent', 'convergent', 'scamper', 'design-thinking', 'lateral', 'auto']).default('auto').describe("Brainstorming framework: 'divergent' (generate many ideas), 'convergent' (refine existing), 'scamper' (systematic triggers), 'design-thinking' (human-centered), 'lateral' (unexpected connections), 'auto' (AI selects best)"),
-  domain: z.string().optional().describe("Domain context for specialized brainstorming (e.g., 'software', 'business', 'creative', 'research', 'product', 'marketing')"),
-  constraints: z.string().optional().describe("Known limitations, requirements, or boundaries (budget, time, technical, legal, etc.)"),
-  existingContext: z.string().optional().describe("Background information, previous attempts, or current state to build upon"),
-  ideaCount: z.number().int().positive().default(12).describe("Number of ideas to generate. More ideas = broader exploration. Default: 12, recommended: 5-30"),
-  includeAnalysis: z.boolean().default(true).describe("Include feasibility, impact, and implementation analysis for generated ideas"),
+  prompt: z.string().min(1).describe("Brainstorming challenge or question"),
+  model: z.string().optional().describe("Model: gpt-5-codex (default), gpt-5, o3, o4-mini, codex-1, codex-mini-latest, gpt-4.1"),
+  approvalPolicy: z.enum(['never','on-request','on-failure','untrusted']).optional().describe("Approval: never, on-request, on-failure, untrusted"),
+  sandboxMode: z.enum(['read-only','workspace-write','danger-full-access']).optional().describe("Access: read-only, workspace-write, danger-full-access"),
+  fullAuto: z.boolean().optional().describe("Full automation mode"),
+  yolo: z.boolean().optional().describe("⚠️ Bypass all safety (dangerous)"),
+  cd: z.string().optional().describe("Working directory"),
+  methodology: z.enum(['divergent', 'convergent', 'scamper', 'design-thinking', 'lateral', 'auto']).default('auto').describe("Framework: divergent, convergent, scamper, design-thinking, lateral, auto (default)"),
+  domain: z.string().optional().describe("Domain: software, business, creative, research, product, marketing, etc."),
+  constraints: z.string().optional().describe("Limitations: budget, time, technical, legal, etc."),
+  existingContext: z.string().optional().describe("Background info or previous attempts"),
+  ideaCount: z.number().int().positive().default(12).describe("Number of ideas (default: 12, range: 5-30)"),
+  includeAnalysis: z.boolean().default(true).describe("Include feasibility/impact analysis"),
 });
 
 export const brainstormTool: UnifiedTool = {
   name: "brainstorm",
-  description: "Generate novel ideas with dynamic context gathering. --> Creative frameworks (SCAMPER, Design Thinking, etc.), domain context integration, idea clustering, feasibility analysis, and iterative refinement.",
+  description: "Generate creative ideas using structured frameworks with domain context and feasibility analysis.",
   zodSchema: brainstormArgsSchema,
   prompt: {
-    description: "Generate structured brainstorming prompt with methodology-driven ideation, domain context integration, and analytical evaluation framework",
+    description: "Create structured brainstorming with chosen methodology and analysis",
   },
   category: 'utility',
   execute: async (args, onProgress) => {

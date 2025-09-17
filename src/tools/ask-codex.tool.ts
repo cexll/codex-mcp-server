@@ -5,15 +5,15 @@ import { processChangeModeOutput } from '../utils/changeModeRunner.js';
 import { STATUS_MESSAGES } from '../constants.js';
 
 const askCodexArgsSchema = z.object({
-  prompt: z.string().min(1).describe("Task or question. Use @ to include files (e.g., '@largefile.ts explain')."),
-  model: z.string().optional().describe("AI model: 'gpt-5' (400K context, best for large codebases), 'o3' (200K, deep reasoning), 'o4-mini' (200K, fast & cheap for simple tasks). Default: gpt-5"),
-  sandbox: z.boolean().default(false).describe("Quick automation mode: enables workspace-write + on-failure approval. Alias for fullAuto."),
-  fullAuto: z.boolean().optional().describe("Full automation: workspace-write sandbox + on-failure approval. Safe for trusted operations."),
-  approvalPolicy: z.enum(['never','on-request','on-failure','untrusted']).optional().describe("When to ask for approval: 'never' (fastest), 'on-request' (model decides), 'on-failure' (on errors), 'untrusted' (always ask)."),
-  sandboxMode: z.enum(['read-only','workspace-write','danger-full-access']).optional().describe("File system access: 'read-only' (safest), 'workspace-write' (can modify project files), 'danger-full-access' (unrestricted - use with caution!)."),
-  yolo: z.boolean().optional().describe("DANGEROUS: Bypass ALL safety measures. No sandbox, no approvals. Use only in isolated environments!"),
-  cd: z.string().optional().describe("Working directory for Codex (--cd)."),
-  changeMode: z.boolean().default(false).describe("Return structured OLD/NEW code edits instead of conversational response. Perfect for refactoring and migrations."),
+  prompt: z.string().min(1).describe("Task/question. Use @ for files (e.g., '@file.ts explain')"),
+  model: z.string().optional().describe("Model: gpt-5-codex (default), gpt-5, o3, o4-mini, codex-1, codex-mini-latest, gpt-4.1"),
+  sandbox: z.boolean().default(false).describe("Quick automation (alias for fullAuto)"),
+  fullAuto: z.boolean().optional().describe("Full automation mode"),
+  approvalPolicy: z.enum(['never','on-request','on-failure','untrusted']).optional().describe("Approval: never, on-request, on-failure, untrusted"),
+  sandboxMode: z.enum(['read-only','workspace-write','danger-full-access']).optional().describe("Access: read-only, workspace-write, danger-full-access"),
+  yolo: z.boolean().optional().describe("⚠️ Bypass all safety (dangerous)"),
+  cd: z.string().optional().describe("Working directory"),
+  changeMode: z.boolean().default(false).describe("Return structured OLD/NEW edits for refactoring"),
   chunkIndex: z.preprocess(
     (val) => {
       if (typeof val === 'number') return val;
@@ -24,16 +24,16 @@ const askCodexArgsSchema = z.object({
       return undefined;
     },
     z.number().min(1).optional()
-  ).describe("Which chunk to return (1-based)"),
-  chunkCacheKey: z.string().optional().describe("Optional cache key for continuation"),
+  ).describe("Chunk index (1-based)"),
+  chunkCacheKey: z.string().optional().describe("Cache key for continuation"),
 });
 
 export const askCodexTool: UnifiedTool = {
   name: 'ask-codex',
-  description: "Execute Codex CLI commands with file analysis (@syntax), model selection (gpt-5/o3/o4-mini), and safety controls. Supports changeMode for structured code edits.",
+  description: "Execute Codex CLI with file analysis (@syntax), model selection, and safety controls. Supports changeMode.",
   zodSchema: askCodexArgsSchema,
   prompt: {
-    description: "Execute Codex CLI with a prompt. Supports changeMode for structured edit suggestions.",
+    description: "Execute Codex CLI with optional changeMode",
   },
   category: 'utility',
   execute: async (args, onProgress) => {
