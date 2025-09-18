@@ -5,9 +5,9 @@ import { processChangeModeOutput } from '../utils/changeModeRunner.js';
 import { STATUS_MESSAGES } from '../constants.js';
 
 const askCodexArgsSchema = z.object({
-  prompt: z.string().min(1).describe("Task/question. Use @ for files (e.g., '@file.ts explain')"),
-  model: z.string().optional().describe("Model: gpt-5-codex (default), gpt-5, o3, o4-mini, codex-1, codex-mini-latest, gpt-4.1"),
-  sandbox: z.boolean().default(false).describe("Quick automation (alias for fullAuto)"),
+  prompt: z.string().min(1).describe("Task or question. Use @ to include files (e.g., '@largefile.ts explain')."),
+  model: z.string().optional().describe("Model: gpt-5-codex (default, best for coding), gpt-5 (fast, general), o3 (smartest, deep reasoning), o4-mini (cheapest, quick tasks), codex-1 (software engineering), codex-mini-latest (low-latency), gpt-4.1"),
+  sandbox: z.boolean().default(false).describe("Quick automation mode: enables workspace-write + on-failure approval. Alias for fullAuto."),
   fullAuto: z.boolean().optional().describe("Full automation mode"),
   approvalPolicy: z.enum(['never','on-request','on-failure','untrusted']).optional().describe("Approval: never, on-request, on-failure, untrusted"),
   sandboxMode: z.enum(['read-only','workspace-write','danger-full-access']).optional().describe("Access: read-only, workspace-write, danger-full-access"),
