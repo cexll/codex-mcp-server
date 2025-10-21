@@ -9,12 +9,14 @@ The `@` syntax enables you to reference files directly in your prompts without m
 ## Basic Usage
 
 ### With Codex CLI
+
 ```bash
 codex "explain @src/index.ts"
 codex exec "analyze @README.md and suggest improvements"
 ```
 
 ### With MCP Tool (ask-codex)
+
 ```javascript
 // Natural language in Claude
 "analyze @src/utils/logger.ts and suggest performance improvements"
@@ -31,13 +33,17 @@ codex exec "analyze @README.md and suggest improvements"
 ## Advanced Patterns
 
 ### Multiple Files
+
 Reference multiple files in a single prompt:
+
 ```bash
 codex "compare @src/server.ts @src/client.ts and explain their interaction"
 ```
 
 ### Directories and Glob Patterns
+
 Analyze entire directories or use patterns:
+
 ```bash
 # Entire directory
 codex "summarize the architecture of @src/"
@@ -50,7 +56,9 @@ codex "review all tests in @tests/**/*.test.js"
 ```
 
 ### Current Directory
+
 Reference the current working directory:
+
 ```bash
 codex "analyze @. and create a project overview"
 ```
@@ -58,7 +66,9 @@ codex "analyze @. and create a project overview"
 ## Best Practices
 
 ### 1. Be Specific with Context
+
 Combine file references with clear instructions:
+
 ```bash
 # Good: Specific task with context
 codex "@src/auth/login.ts explain the authentication flow and identify security risks"
@@ -68,7 +78,9 @@ codex "@src/auth/*.ts @src/middleware/auth.js review the entire auth system"
 ```
 
 ### 2. Use Structured Queries
+
 Break complex analyses into focused questions:
+
 ```bash
 # Architecture review
 codex "@src/**/*.ts identify the 3 most critical refactoring opportunities"
@@ -81,14 +93,18 @@ codex "@src/api/**/*.ts check for OWASP top 10 vulnerabilities"
 ```
 
 ### 3. Leverage Pattern Matching
+
 Use glob patterns effectively:
+
 - `*.ts` - All TypeScript files in current directory
 - `**/*.test.js` - All test files recursively
 - `src/**/index.ts` - All index files under src
 - `{src,lib}/**/*.js` - JavaScript files in src or lib
 
 ### 4. Handle Large Codebases
+
 For large projects, focus your queries:
+
 ```bash
 # Step 1: Overview
 codex "@src/**/index.ts summarize the module structure"
@@ -103,6 +119,7 @@ codex "@src/api/users.ts optimize database queries"
 ## Working with Different File Types
 
 ### Code Files
+
 ```bash
 # JavaScript/TypeScript
 codex "@src/**/*.{js,ts} identify unused exports"
@@ -115,6 +132,7 @@ codex "@pkg/**/*.go review error handling patterns"
 ```
 
 ### Configuration Files
+
 ```bash
 # Package dependencies
 codex "@package.json @package-lock.json audit dependencies for vulnerabilities"
@@ -127,6 +145,7 @@ codex "@.github/workflows/*.yml improve CI pipeline efficiency"
 ```
 
 ### Documentation
+
 ```bash
 # Markdown files
 codex "@docs/**/*.md check for broken links and outdated information"
@@ -138,7 +157,9 @@ codex "@api-docs/*.yaml validate OpenAPI specifications"
 ## Integration with MCP Features
 
 ### With Sandbox Mode
+
 Enable full-auto mode for file operations:
+
 ```javascript
 {
   "prompt": "@src/**/*.ts add JSDoc comments to all exported functions",
@@ -147,7 +168,9 @@ Enable full-auto mode for file operations:
 ```
 
 ### With Model Selection
+
 Use specific models for different tasks:
+
 ```javascript
 {
   "prompt": "@src/algorithm.ts optimize this complex algorithm",
@@ -156,7 +179,9 @@ Use specific models for different tasks:
 ```
 
 ### With Change Mode
+
 Get structured edits:
+
 ```javascript
 {
   "prompt": "@src/components/*.tsx convert class components to hooks",
@@ -167,6 +192,7 @@ Get structured edits:
 ## Tips and Tricks
 
 ### Path Resolution
+
 - Paths are resolved relative to Codex's working directory
 - Use `--cd` flag to change the working directory:
   ```bash
@@ -174,11 +200,13 @@ Get structured edits:
   ```
 
 ### Performance Optimization
+
 1. **Start broad, then narrow**: Begin with directory overviews, then focus on specific files
 2. **Use appropriate models**: GPT-5 for complex analysis, o4-mini for quick reviews
 3. **Batch related files**: Include all relevant context in one prompt rather than multiple queries
 
 ### Common Patterns
+
 ```bash
 # Find TODOs and FIXMEs
 codex "@src/**/*.{js,ts} list all TODO and FIXME comments with priority"
@@ -199,16 +227,19 @@ codex "@package.json identify unused dependencies"
 ## Troubleshooting
 
 ### File Not Found
+
 - Verify the path exists: `ls <path>`
 - Check working directory: `pwd`
 - Ensure correct relative path from working directory
 
 ### Large File Handling
+
 - For files over 100KB, consider splitting the analysis
 - Use specific line ranges when possible
 - Focus on relevant sections rather than entire files
 
 ### Pattern Matching Issues
+
 - Test glob patterns with `ls` first: `ls src/**/*.ts`
 - Escape special characters when needed
 - Use quotes for complex patterns
@@ -216,6 +247,7 @@ codex "@package.json identify unused dependencies"
 ## Examples by Use Case
 
 ### Code Review
+
 ```bash
 codex "@feature/new-api/**/*.ts perform a thorough code review focusing on:
 - Code quality and best practices
@@ -225,6 +257,7 @@ codex "@feature/new-api/**/*.ts perform a thorough code review focusing on:
 ```
 
 ### Refactoring
+
 ```bash
 codex "@src/old-module/*.js refactor to:
 - Use TypeScript
@@ -234,6 +267,7 @@ codex "@src/old-module/*.js refactor to:
 ```
 
 ### Documentation Generation
+
 ```bash
 codex "@src/**/*.ts generate:
 - README with setup instructions
@@ -243,6 +277,7 @@ codex "@src/**/*.ts generate:
 ```
 
 ### Bug Investigation
+
 ```bash
 codex "@src/payment/*.ts @logs/error.log investigate the payment processing bug:
 - Analyze error patterns

@@ -21,12 +21,14 @@ The `fetch-chunk` tool handles pagination for large structured edit responses. W
 ## Parameters
 
 ### cacheKey (required)
+
 - **Type:** `string`
 - **Description:** The cache key provided in the initial changeMode response
 - **Example:** `"a3f2c8d1"`
 - **Source:** Returned from initial `ask-codex` call with `changeMode: true`
 
 ### chunkIndex (required)
+
 - **Type:** `number`
 - **Minimum:** `1` (1-based indexing)
 - **Description:** Which chunk to retrieve
@@ -37,6 +39,7 @@ The `fetch-chunk` tool handles pagination for large structured edit responses. W
 ### 1. Initial Request
 
 Large refactoring request:
+
 ```javascript
 {
   "name": "ask-codex",
@@ -90,23 +93,23 @@ Large refactoring request:
 ```javascript
 // Step 1: Start refactoring
 const initial = {
-  "name": "ask-codex",
-  "arguments": {
-    "prompt": "convert @src/**/*.js to TypeScript",
-    "changeMode": true,
-    "model": "gpt-5"
-  }
+  name: 'ask-codex',
+  arguments: {
+    prompt: 'convert @src/**/*.js to TypeScript',
+    changeMode: true,
+    model: 'gpt-5',
+  },
 };
 // Returns: { cacheKey: "ts-convert-xyz", totalChunks: 8, ... }
 
 // Step 2: Retrieve all chunks
 for (let i = 2; i <= 8; i++) {
   const chunk = {
-    "name": "fetch-chunk",
-    "arguments": {
-      "cacheKey": "ts-convert-xyz",
-      "chunkIndex": i
-    }
+    name: 'fetch-chunk',
+    arguments: {
+      cacheKey: 'ts-convert-xyz',
+      chunkIndex: i,
+    },
   };
   // Process each chunk
 }
@@ -187,16 +190,19 @@ Please re-run the original request to generate new chunks.
 ## Cache Management
 
 ### Cache Duration
+
 - Chunks are cached for **10 minutes** after creation
 - Cache persists until TTL expires (not auto-cleared after retrieval)
 - Cache cleared on server restart
 
 ### Cache Key Format
+
 - Format: First 8 characters of SHA-256 hash of the prompt
 - Example: `a3f2c8d1`
 - Deterministic based on prompt content
 
 ### Cache Limits
+
 - Maximum 50 cache files system-wide
 - Automatic cleanup of expired caches (10-minute TTL)
 - Cache stored in temporary directory
@@ -206,6 +212,7 @@ Please re-run the original request to generate new chunks.
 ### 1. Sequential Retrieval
 
 Retrieve chunks in order:
+
 ```javascript
 // Good: Sequential
 for (let i = 2; i <= totalChunks; i++) {
@@ -213,7 +220,7 @@ for (let i = 2; i <= totalChunks; i++) {
 }
 
 // Avoid: Random access
-await fetchChunk(cacheKey, 5);  // May miss context
+await fetchChunk(cacheKey, 5); // May miss context
 ```
 
 ### 2. Handle Expiration
@@ -232,9 +239,10 @@ try {
 ### 3. Process Incrementally
 
 Apply changes as chunks arrive:
+
 ```javascript
 // Process each chunk immediately
-const processChunk = (chunk) => {
+const processChunk = chunk => {
   applyEdits(chunk.content);
   if (chunk.hasMore) {
     fetchNext();
@@ -290,12 +298,12 @@ const processChunk = (chunk) => {
 
 ### Common Errors
 
-| Error | Cause | Solution |
-|-------|-------|----------|
-| `Cache key not found` | Key expired or invalid | Re-run original request |
-| `Invalid chunk index` | Index out of range | Check totalChunks value |
-| `Cache expired` | 10-minute timeout | Re-run original request |
-| `Chunk already retrieved` | Duplicate request | Continue to next chunk |
+| Error                     | Cause                  | Solution                |
+| ------------------------- | ---------------------- | ----------------------- |
+| `Cache key not found`     | Key expired or invalid | Re-run original request |
+| `Invalid chunk index`     | Index out of range     | Check totalChunks value |
+| `Cache expired`           | 10-minute timeout      | Re-run original request |
+| `Chunk already retrieved` | Duplicate request      | Continue to next chunk  |
 
 ### Recovery Strategy
 
@@ -313,11 +321,13 @@ const safeChunkFetch = async (cacheKey, index, originalRequest) => {
 ## Performance Tips
 
 ### 1. Chunk Size Optimization
+
 - Average chunk: ~50KB of edit data
 - Large files split across multiple chunks
 - Small edits may fit in single response
 
 ### 2. Parallel Processing
+
 ```javascript
 // Process while fetching
 const pipeline = async (cacheKey, total) => {
@@ -328,6 +338,7 @@ const pipeline = async (cacheKey, total) => {
 ```
 
 ### 3. Memory Management
+
 - Clear processed chunks from memory
 - Stream to file for very large operations
 - Monitor memory usage for long sessions

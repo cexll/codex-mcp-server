@@ -34,17 +34,20 @@ The `brainstorm` tool leverages AI models to generate creative solutions using v
 ### Core Parameters
 
 #### prompt (required)
+
 - **Type:** `string`
 - **Description:** The brainstorming challenge or question to explore
 - **Example:** `"ways to improve API performance"`
 
 #### model (optional)
+
 - **Type:** `string`
 - **Default:** Codex default model
 - **Options:** `"gpt-5"`, `"o3"`, `"o4-mini"`
 - **Recommendation:** Use GPT-5 for creative tasks
 
 #### methodology (optional)
+
 - **Type:** `string`
 - **Default:** `"auto"`
 - **Options:**
@@ -58,16 +61,19 @@ The `brainstorm` tool leverages AI models to generate creative solutions using v
 ### Context Parameters
 
 #### domain (optional)
+
 - **Type:** `string`
 - **Description:** Domain context for specialized brainstorming
 - **Examples:** `"software"`, `"business"`, `"creative"`, `"research"`, `"product"`, `"marketing"`
 
 #### constraints (optional)
+
 - **Type:** `string`
 - **Description:** Known limitations, requirements, or boundaries
 - **Example:** `"budget under $10k, must work with existing infrastructure"`
 
 #### existingContext (optional)
+
 - **Type:** `string`
 - **Description:** Background information or previous attempts
 - **Example:** `"We tried caching but it didn't help enough"`
@@ -75,12 +81,14 @@ The `brainstorm` tool leverages AI models to generate creative solutions using v
 ### Output Parameters
 
 #### ideaCount (optional)
+
 - **Type:** `number`
 - **Default:** `12`
 - **Range:** 1-50
 - **Description:** Target number of ideas to generate
 
 #### includeAnalysis (optional)
+
 - **Type:** `boolean`
 - **Default:** `true`
 - **Description:** Include feasibility, impact, and implementation analysis
@@ -88,25 +96,30 @@ The `brainstorm` tool leverages AI models to generate creative solutions using v
 ### Execution Parameters
 
 #### approvalPolicy (optional)
+
 - **Type:** `string`
 - **Options:** `"never"`, `"on-request"`, `"on-failure"`, `"untrusted"`
 - **Description:** When approval is required
 
 #### sandboxMode (optional)
+
 - **Type:** `string`
 - **Options:** `"read-only"`, `"workspace-write"`, `"danger-full-access"`
 - **Description:** File system access level
 
 #### fullAuto (optional)
+
 - **Type:** `boolean`
 - **Default:** `false`
 - **Description:** Enable full automation
 
 #### cd (optional)
+
 - **Type:** `string`
 - **Description:** Working directory
 
 #### yolo (optional)
+
 - **Type:** `boolean`
 - **Default:** `false`
 - **Description:** Bypass all safety measures
@@ -114,7 +127,9 @@ The `brainstorm` tool leverages AI models to generate creative solutions using v
 ## Methodologies Explained
 
 ### Divergent Thinking
+
 Generates a wide variety of ideas without immediate judgment:
+
 ```javascript
 {
   "prompt": "ways to reduce server costs",
@@ -124,7 +139,9 @@ Generates a wide variety of ideas without immediate judgment:
 ```
 
 ### Convergent Thinking
+
 Refines and combines existing ideas:
+
 ```javascript
 {
   "prompt": "optimize our top 3 solutions",
@@ -134,7 +151,9 @@ Refines and combines existing ideas:
 ```
 
 ### SCAMPER Method
+
 Systematic approach using triggers:
+
 - **S**ubstitute - What can be substituted?
 - **C**ombine - What can be combined?
 - **A**dapt - What can be adapted?
@@ -151,7 +170,9 @@ Systematic approach using triggers:
 ```
 
 ### Design Thinking
+
 Human-centered problem solving:
+
 ```javascript
 {
   "prompt": "improve developer experience",
@@ -161,7 +182,9 @@ Human-centered problem solving:
 ```
 
 ### Lateral Thinking
+
 Creates unexpected connections:
+
 ```javascript
 {
   "prompt": "innovative data storage solutions",
@@ -251,11 +274,13 @@ Creates unexpected connections:
 ## Brainstorming Results: [Topic]
 
 ### Methodology: Design Thinking
+
 ### Domain: Software Development
 
 ---
 
 ### Idea 1: Automated Code Review Bot
+
 **Description:** AI-powered bot that provides initial code review
 **Feasibility:** High - Existing APIs available
 **Impact:** Medium-High - Saves 30% review time
@@ -263,6 +288,7 @@ Creates unexpected connections:
 **Challenges:** Initial setup, false positive handling
 
 ### Idea 2: Pair Programming Scheduler
+
 **Description:** Smart calendar integration for pair sessions
 **Feasibility:** Medium - Requires calendar API integration
 **Impact:** Medium - Improves collaboration
@@ -272,6 +298,7 @@ Creates unexpected connections:
 [... more ideas ...]
 
 ### Summary
+
 - Total ideas generated: 10
 - High feasibility: 4
 - High impact: 3
@@ -289,7 +316,7 @@ Creates unexpected connections:
 3. **Review Metrics Dashboard** - Track review efficiency
 4. **Code Review Templates** - Standardized review checklists
 5. **Async Review Mode** - Time-shifted review process
-[... more ideas ...]
+   [... more ideas ...]
 ```
 
 ## Advanced Usage
@@ -338,15 +365,17 @@ Creates unexpected connections:
 ## Best Practices
 
 ### 1. Be Specific
+
 ```javascript
 // Good: Specific problem
-"ways to reduce API response time from 2s to 200ms"
+'ways to reduce API response time from 2s to 200ms';
 
 // Less effective: Vague
-"make API faster"
+'make API faster';
 ```
 
 ### 2. Provide Context
+
 ```javascript
 {
   "prompt": "improve user retention",
@@ -356,6 +385,7 @@ Creates unexpected connections:
 ```
 
 ### 3. Choose Appropriate Methodology
+
 - **New ideas:** Use `divergent`
 - **Refining solutions:** Use `convergent`
 - **Systematic exploration:** Use `scamper`
@@ -363,13 +393,16 @@ Creates unexpected connections:
 - **Creative breakthrough:** Use `lateral`
 
 ### 4. Iterate on Results
+
 Start broad, then narrow:
+
 1. Generate many ideas (divergent)
 2. Analyze and filter
 3. Refine top candidates (convergent)
 4. Develop implementation plans
 
 ### 5. Set Realistic Counts
+
 - **Quick session:** 5-10 ideas
 - **Thorough exploration:** 15-25 ideas
 - **Exhaustive analysis:** 30-50 ideas
@@ -377,6 +410,7 @@ Start broad, then narrow:
 ## Common Use Cases
 
 ### Software Development
+
 - Architecture decisions
 - Performance optimization
 - Feature prioritization
@@ -384,6 +418,7 @@ Start broad, then narrow:
 - Testing strategies
 
 ### Product Management
+
 - Feature ideation
 - User experience improvements
 - Competitive differentiation
@@ -391,6 +426,7 @@ Start broad, then narrow:
 - MVP definition
 
 ### Business Strategy
+
 - Cost reduction
 - Revenue generation
 - Process optimization
@@ -398,6 +434,7 @@ Start broad, then narrow:
 - Risk mitigation
 
 ### Team & Process
+
 - Workflow improvements
 - Communication enhancement
 - Onboarding optimization
@@ -407,10 +444,12 @@ Start broad, then narrow:
 ## Tips for Better Results
 
 ### 1. Frame Problems as Opportunities
+
 Instead of: "Fix slow database"
 Try: "Opportunities to enhance database performance"
 
 ### 2. Include Stakeholder Perspectives
+
 ```javascript
 {
   "prompt": "improve deployment process",
@@ -419,6 +458,7 @@ Try: "Opportunities to enhance database performance"
 ```
 
 ### 3. Consider Multiple Timeframes
+
 ```javascript
 {
   "prompt": "scaling strategies",
@@ -427,12 +467,13 @@ Try: "Opportunities to enhance database performance"
 ```
 
 ### 4. Combine with Other Tools
+
 ```javascript
 // First: Analyze current state
 { "name": "ask-codex", "arguments": { "prompt": "analyze @src/ performance" } }
 
 // Then: Brainstorm improvements
-{ "name": "brainstorm", "arguments": { 
+{ "name": "brainstorm", "arguments": {
   "prompt": "optimize identified bottlenecks",
   "existingContext": "[analysis results]"
 }}

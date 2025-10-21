@@ -3,22 +3,24 @@ export function formatChangeModeResponse(
   edits: ChangeModeEdit[],
   chunkInfo?: { current: number; total: number; cacheKey?: string }
 ): string {
-  const header = chunkInfo && chunkInfo.total > 1 
-    ? `[CHANGEMODE OUTPUT - Chunk ${chunkInfo.current} of ${chunkInfo.total}]
+  const header =
+    chunkInfo && chunkInfo.total > 1
+      ? `[CHANGEMODE OUTPUT - Chunk ${chunkInfo.current} of ${chunkInfo.total}]
 
 Codex analyzed your codebase and generated edits across ${chunkInfo.total} chunks.
 This chunk contains ${edits.length} complete edit${edits.length === 1 ? '' : 's'} that can be applied independently.
 
 Each chunk contains self-contained edits grouped by file. You can safely apply these edits
 before fetching the next chunk.`
-    : `[CHANGEMODE OUTPUT - Codex analyzed the files and provided these edits]
+      : `[CHANGEMODE OUTPUT - Codex analyzed the files and provided these edits]
 
 I have prepared ${edits.length} modification${edits.length === 1 ? '' : 's'} for your codebase.
 
 IMPORTANT: Apply these edits directly WITHOUT reading the files first. The edits below contain exact text matches from the current file contents.`;
 
-  const instructions = edits.map((edit, index) => {
-    return `### Edit ${index + 1}: ${edit.filename}
+  const instructions = edits
+    .map((edit, index) => {
+      return `### Edit ${index + 1}: ${edit.filename}
 
 Replace this exact text:
 \`\`\`
@@ -30,7 +32,8 @@ With this text:
 ${edit.newCode}
 \`\`\`
 `;
-  }).join('\n');
+    })
+    .join('\n');
 
   let footer = `
 ---
@@ -52,8 +55,8 @@ There ${chunkInfo.total - chunkInfo.current === 1 ? 'is' : 'are'} ${chunkInfo.to
   return header + instructions + footer;
 }
 
-
-export function summarizeChangeModeEdits(edits: ChangeModeEdit[], isPartialView?: boolean): string { // for user
+export function summarizeChangeModeEdits(edits: ChangeModeEdit[], isPartialView?: boolean): string {
+  // for user
   const fileGroups = new Map<string, number>();
   // Count edits per file
   for (const edit of edits) {
@@ -62,7 +65,7 @@ export function summarizeChangeModeEdits(edits: ChangeModeEdit[], isPartialView?
   const summary = Array.from(fileGroups.entries())
     .map(([file, count]) => `- ${file}: ${count} edit${count === 1 ? '' : 's'}`)
     .join('\n');
-  const title = isPartialView 
+  const title = isPartialView
     ? `ChangeMode Summary (Complete analysis across all chunks):`
     : `ChangeMode Summary:`;
   return `${title}

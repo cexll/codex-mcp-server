@@ -15,6 +15,7 @@ Multiple ways to install the Codex MCP Tool, depending on your needs.
 No installation needed - runs directly:
 
 ### Claude Desktop Configuration
+
 ```json
 {
   "mcpServers": {
@@ -27,6 +28,7 @@ No installation needed - runs directly:
 ```
 
 ### Claude Code Configuration
+
 ```bash
 claude mcp add codex-cli --npm-package @trishchuk/codex-mcp-tool
 ```
@@ -34,11 +36,13 @@ claude mcp add codex-cli --npm-package @trishchuk/codex-mcp-tool
 ## Method 2: Global Installation
 
 ### Install globally
+
 ```bash
 npm install -g @trishchuk/codex-mcp-tool
 ```
 
 ### Claude Desktop Configuration
+
 ```json
 {
   "mcpServers": {
@@ -50,6 +54,7 @@ npm install -g @trishchuk/codex-mcp-tool
 ```
 
 ### Claude Code Configuration
+
 ```bash
 claude mcp add codex-cli --command codex-mcp
 ```
@@ -74,6 +79,7 @@ node dist/index.js
 ```
 
 ### Claude Desktop Configuration (Local)
+
 ```json
 {
   "mcpServers": {
@@ -103,6 +109,7 @@ Expected response: `"Hello Codex!"`
 ## Troubleshooting
 
 Common issues:
+
 - **Node.js version**: Ensure you have Node.js ≥18.0.0 (`node --version`)
 - **Codex CLI not found**: Install and authenticate Codex CLI first
 - **Permission errors**: Try running with appropriate permissions
@@ -115,16 +122,19 @@ For more help, see the [FAQ](faq) or [Troubleshooting Guide](resources/troublesh
 Need help with installation or setup? I'm here to assist:
 
 ### 🤝 Get Help
+
 - **GitHub Issues**: [Report bugs or request features](https://github.com/x51xxx/codex-mcp-tool/issues)
 - **GitHub Discussions**: [Ask questions and share ideas](https://github.com/x51xxx/codex-mcp-tool/discussions)
 - **Email**: [taras@trishchuk.com](mailto:taras@trishchuk.com) for direct support
 
 ### 📖 Documentation
+
 - **[Getting Started Guide](getting-started)** - Complete setup and configuration
 - **[API Documentation](api/tools/ask-codex)** - Detailed tool reference
 - **[Examples](examples/basic-usage)** - Practical usage patterns
 
 ### 🚀 Contributing
+
 Interested in contributing? Check out our [Contributing Guide](https://github.com/x51xxx/codex-mcp-tool/blob/main/CONTRIBUTING.md) or reach out directly!
 
 ---

@@ -12,11 +12,12 @@ function buildBrainstormPrompt(config: {
   ideaCount: number;
   includeAnalysis: boolean;
 }): string {
-  const { prompt, methodology, domain, constraints, existingContext, ideaCount, includeAnalysis } = config;
-  
+  const { prompt, methodology, domain, constraints, existingContext, ideaCount, includeAnalysis } =
+    config;
+
   // Select methodology framework
   let frameworkInstructions = getMethodologyInstructions(methodology, domain);
-  
+
   let enhancedPrompt = `# BRAINSTORMING SESSION
 
 ## Challenge: ${prompt}
@@ -32,8 +33,12 @@ ${existingContext ? `Background: ${existingContext}` : ''}
 ## Requirements
 Generate ${ideaCount} actionable ideas. Keep descriptions concise (2-3 sentences max).
 
-${includeAnalysis ? `## Analysis
-Rate each: Feasibility (1-5), Impact (1-5), Innovation (1-5)` : ''}
+${
+  includeAnalysis
+    ? `## Analysis
+Rate each: Feasibility (1-5), Impact (1-5), Innovation (1-5)`
+    : ''
+}
 
 ## Format
 ### Idea [N]: [Name]
@@ -50,21 +55,21 @@ Begin:`;
  */
 function getMethodologyInstructions(methodology: string, domain?: string): string {
   const methodologies: Record<string, string> = {
-    'divergent': `**Divergent Thinking Approach:**
+    divergent: `**Divergent Thinking Approach:**
 - Generate maximum quantity of ideas without self-censoring
 - Build on wild or seemingly impractical ideas
 - Combine unrelated concepts for unexpected solutions
 - Use "Yes, and..." thinking to expand each concept
 - Postpone evaluation until all ideas are generated`,
 
-    'convergent': `**Convergent Thinking Approach:**
+    convergent: `**Convergent Thinking Approach:**
 - Focus on refining and improving existing concepts
 - Synthesize related ideas into stronger solutions
 - Apply critical evaluation criteria
 - Prioritize based on feasibility and impact
 - Develop implementation pathways for top ideas`,
 
-    'scamper': `**SCAMPER Creative Triggers:**
+    scamper: `**SCAMPER Creative Triggers:**
 - **Substitute:** What can be substituted or replaced?
 - **Combine:** What can be combined or merged?
 - **Adapt:** What can be adapted from other domains?
@@ -80,45 +85,77 @@ function getMethodologyInstructions(methodology: string, domain?: string): strin
 - **Consider Journey:** Think through complete user experience
 - **Prototype Mindset:** Focus on testable, iterative concepts`,
 
-    'lateral': `**Lateral Thinking Approach:**
+    lateral: `**Lateral Thinking Approach:**
 - Make unexpected connections between unrelated fields
 - Challenge fundamental assumptions
 - Use random word association to trigger new directions
 - Apply metaphors and analogies from other domains
 - Reverse conventional thinking patterns`,
 
-    'auto': `**AI-Optimized Approach:**
-${domain ? `Given the ${domain} domain, I'll apply the most effective combination of:` : 'I\'ll intelligently combine multiple methodologies:'}
+    auto: `**AI-Optimized Approach:**
+${domain ? `Given the ${domain} domain, I'll apply the most effective combination of:` : "I'll intelligently combine multiple methodologies:"}
 - Divergent exploration with domain-specific knowledge
 - SCAMPER triggers and lateral thinking
-- Human-centered perspective for practical value`
+- Human-centered perspective for practical value`,
   };
 
   return methodologies[methodology] || methodologies['auto'];
 }
 
 const brainstormArgsSchema = z.object({
-  prompt: z.string().min(1).describe("Brainstorming challenge or question"),
-  model: z.string().optional().describe("Model: gpt-5-codex (default), gpt-5, o3, o4-mini, codex-1, codex-mini-latest, gpt-4.1"),
-  approvalPolicy: z.enum(['never','on-request','on-failure','untrusted']).optional().describe("Approval: never, on-request, on-failure, untrusted"),
-  sandboxMode: z.enum(['read-only','workspace-write','danger-full-access']).optional().describe("Access: read-only, workspace-write, danger-full-access"),
-  fullAuto: z.boolean().optional().describe("Full automation mode"),
-  yolo: z.boolean().optional().describe("⚠️ Bypass all safety (dangerous)"),
-  cd: z.string().optional().describe("Working directory"),
-  methodology: z.enum(['divergent', 'convergent', 'scamper', 'design-thinking', 'lateral', 'auto']).default('auto').describe("Framework: divergent, convergent, scamper, design-thinking, lateral, auto (default)"),
-  domain: z.string().optional().describe("Domain: software, business, creative, research, product, marketing, etc."),
-  constraints: z.string().optional().describe("Limitations: budget, time, technical, legal, etc."),
-  existingContext: z.string().optional().describe("Background info or previous attempts"),
-  ideaCount: z.number().int().positive().default(12).describe("Number of ideas (default: 12, range: 5-30)"),
-  includeAnalysis: z.boolean().default(true).describe("Include feasibility/impact analysis"),
+  prompt: z.string().min(1).describe('Brainstorming challenge or question'),
+  model: z
+    .string()
+    .optional()
+    .describe(
+      'Model: gpt-5-codex (default), gpt-5, o3, o4-mini, codex-1, codex-mini-latest, gpt-4.1'
+    ),
+  approvalPolicy: z
+    .enum(['never', 'on-request', 'on-failure', 'untrusted'])
+    .optional()
+    .describe('Approval: never, on-request, on-failure, untrusted'),
+  sandboxMode: z
+    .enum(['read-only', 'workspace-write', 'danger-full-access'])
+    .optional()
+    .describe('Access: read-only, workspace-write, danger-full-access'),
+  fullAuto: z.boolean().optional().describe('Full automation mode'),
+  yolo: z.boolean().optional().describe('⚠️ Bypass all safety (dangerous)'),
+  cd: z.string().optional().describe('Working directory'),
+  methodology: z
+    .enum(['divergent', 'convergent', 'scamper', 'design-thinking', 'lateral', 'auto'])
+    .default('auto')
+    .describe(
+      'Framework: divergent, convergent, scamper, design-thinking, lateral, auto (default)'
+    ),
+  domain: z
+    .string()
+    .optional()
+    .describe('Domain: software, business, creative, research, product, marketing, etc.'),
+  constraints: z.string().optional().describe('Limitations: budget, time, technical, legal, etc.'),
+  existingContext: z.string().optional().describe('Background info or previous attempts'),
+  ideaCount: z
+    .number()
+    .int()
+    .positive()
+    .default(12)
+    .describe('Number of ideas (default: 12, range: 5-30)'),
+  includeAnalysis: z.boolean().default(true).describe('Include feasibility/impact analysis'),
+  search: z
+    .boolean()
+    .optional()
+    .describe('Enable web search for research (activates web_search_request feature)'),
+  oss: z.boolean().optional().describe('Use local Ollama server'),
+  enableFeatures: z.array(z.string()).optional().describe('Enable feature flags'),
+  disableFeatures: z.array(z.string()).optional().describe('Disable feature flags'),
 });
 
 export const brainstormTool: UnifiedTool = {
-  name: "brainstorm",
-  description: "Generate creative ideas using structured frameworks with domain context and feasibility analysis.",
+  name: 'brainstorm',
+  description:
+    'Generate creative ideas using structured frameworks with domain context and feasibility analysis.',
   zodSchema: brainstormArgsSchema,
   prompt: {
-    description: "Create structured brainstorming with chosen methodology and analysis",
+    description: 'Create structured brainstorming with chosen methodology and analysis',
   },
   category: 'utility',
   execute: async (args, onProgress) => {
@@ -135,11 +172,15 @@ export const brainstormTool: UnifiedTool = {
       constraints,
       existingContext,
       ideaCount = 12,
-      includeAnalysis = true
+      includeAnalysis = true,
+      search,
+      oss,
+      enableFeatures,
+      disableFeatures,
     } = args;
 
     if (!prompt?.trim()) {
-      throw new Error("You must provide a valid brainstorming challenge or question to explore");
+      throw new Error('You must provide a valid brainstorming challenge or question to explore');
     }
 
     let enhancedPrompt = buildBrainstormPrompt({
@@ -149,14 +190,16 @@ export const brainstormTool: UnifiedTool = {
       constraints: constraints as string | undefined,
       existingContext: existingContext as string | undefined,
       ideaCount: ideaCount as number,
-      includeAnalysis: includeAnalysis as boolean
+      includeAnalysis: includeAnalysis as boolean,
     });
 
-    Logger.debug(`Brainstorm: Using methodology '${methodology}' for domain '${domain || 'general'}'`);
-    
+    Logger.debug(
+      `Brainstorm: Using methodology '${methodology}' for domain '${domain || 'general'}'`
+    );
+
     // Report progress to user
     onProgress?.(`Generating ${ideaCount} ideas via ${methodology} methodology...`);
-    
+
     // Execute with Codex (non-interactive)
     return await executeCodexCLI(
       enhancedPrompt,
@@ -167,8 +210,12 @@ export const brainstormTool: UnifiedTool = {
         sandboxMode: sandboxMode as any,
         yolo: Boolean(yolo),
         cd: cd as string | undefined,
+        search: search as boolean,
+        oss: oss as boolean,
+        enableFeatures: enableFeatures as string[],
+        disableFeatures: disableFeatures as string[],
       },
       onProgress
     );
-  }
+  },
 };

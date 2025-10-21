@@ -20,6 +20,7 @@ The `ping` tool provides a simple way to verify that the Codex MCP Tool is prope
 ## Parameters
 
 ### prompt (optional)
+
 - **Type:** `string`
 - **Default:** `""` (empty string)
 - **Description:** Message to echo back
@@ -80,16 +81,19 @@ After installing Codex MCP Tool, use ping to verify:
 When troubleshooting:
 
 1. **First test ping:**
+
 ```javascript
 { "name": "ping", "arguments": {} }
 ```
 
 2. **If ping works, test Codex CLI:**
+
 ```javascript
 { "name": "help", "arguments": {} }
 ```
 
 3. **If ping fails:**
+
 - Check MCP server configuration
 - Restart Claude client
 - Verify npm package installation
@@ -122,6 +126,7 @@ Pong! [your message]
 ### Error Response
 
 If the MCP server is not running:
+
 ```
 Error: MCP server not responding
 ```
@@ -133,6 +138,7 @@ Error: MCP server not responding
 If ping doesn't respond:
 
 1. **Check configuration:**
+
 ```json
 {
   "mcpServers": {
@@ -145,17 +151,20 @@ If ping doesn't respond:
 ```
 
 2. **Verify installation:**
+
 ```bash
 npm list -g @trishchuk/codex-mcp-tool
 ```
 
 3. **Restart client:**
+
 - Claude Desktop: Quit and restart
 - Claude Code: Run `/restart`
 
 ### Delayed Response
 
 Normal ping should respond instantly. If delayed:
+
 - Check system resources
 - Verify Node.js version >= 18.0.0
 - Check for conflicting processes

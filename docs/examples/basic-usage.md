@@ -477,20 +477,25 @@ Always analyze before modifying:
 ## Tips for Effective Usage
 
 ### 1. Start Small
+
 Begin with single files or small directories before processing entire codebases.
 
 ### 2. Use Appropriate Models
+
 - **o4-mini**: Quick analysis, simple tasks
 - **o3**: Complex reasoning, detailed reviews
 - **gpt-5**: Large refactoring, comprehensive generation
 
 ### 3. Leverage Change Mode
+
 For any code modifications, use `changeMode: true` to get structured edits.
 
 ### 4. Set Clear Boundaries
+
 Use sandbox modes to control what the tool can access and modify.
 
 ### 5. Provide Context
+
 Include relevant background information for better results.
 
 ## Next Steps

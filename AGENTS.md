@@ -1,6 +1,7 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
+
 - `src/` TypeScript sources (ESM):
   - `index.ts` MCP entrypoint (stdio server)
   - `tools/` MCP tools (`*.tool.ts`), `registry.ts`, `index.ts` (registration)
@@ -13,6 +14,7 @@
 Example: add a tool under `src/tools/my-feature.tool.ts`, then register it in `src/tools/index.ts` by pushing to `toolRegistry`.
 
 ## Build, Test, and Development Commands
+
 - `npm run build` — compile TypeScript to `dist/`.
 - `npm start` — run server from `dist/`.
 - `npm run dev` — compile once then run (no watch).
@@ -22,32 +24,38 @@ Example: add a tool under `src/tools/my-feature.tool.ts`, then register it in `s
 Requirements: Node `>=16`. The server shells out to the `codex` CLI; ensure it's installed and authenticated in your environment.
 
 ## Coding Style & Naming Conventions
+
 - Language: TypeScript (ESM, Node16 resolution). Imports use `.js` extensions in `src/` to match ESM output.
 - Indentation: 2 spaces; prefer single quotes in strings except where template literals or readability favors otherwise.
 - Filenames: `kebab-case`. Tools end with `.tool.ts` (e.g., `fetch-chunk.tool.ts`).
 - Types: keep `zod` schemas colocated with tools; export a `UnifiedTool` and register it.
 
 ## Testing Guidelines
+
 - Currently no automated tests (`npm test` is a stub). If adding tests, place them alongside sources (e.g., `src/**/__tests__`) and mirror filenames.
 - Aim for unit coverage on parsing/execution utilities in `src/utils/` and schema validation.
 
 ## Commit & Pull Request Guidelines
+
 - Commits: concise, imperative subject (e.g., `feat: add brainstorm tool`, `fix(utils): handle quota errors`).
 - PRs: include a clear description, linked issues, reproduction steps, and sample CLI output (stdout/stderr) when relevant.
 - Keep changes scoped; update docs in `docs/` or `README.md` when behavior/CLI changes.
 
 ## Agent-Specific Notes
+
 - Tools exposed: `ask-codex`, `brainstorm`, `fetch-chunk`, `ping`, `Help` (register in `src/tools/index.ts`).
 - Quick local run (no build): `npx tsx src/index.ts`.
 - Codex flags passthrough: prefer `fullAuto`, `approvalPolicy`, `sandboxMode`, `yolo`, `cd` in tool args over hardcoding flags.
 
 ## Security & Configuration Tips
+
 - Never commit secrets. Configure Codex credentials via the `codex` CLI/env locally.
 - Validate untrusted input through `zod` schemas; avoid spawning arbitrary commands beyond the intended `codex` CLI.
 
 ## Adding New Features
 
 ### To Add a New Tool
+
 1. Create `src/tools/your-tool.tool.ts`
 2. Define zod schema for arguments
 3. Export `UnifiedTool` object with name, description, schema, and execute function

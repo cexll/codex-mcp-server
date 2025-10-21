@@ -337,53 +337,53 @@ See how different methodologies yield different results:
 ```javascript
 // Divergent: Generate many ideas
 const divergent = {
-  "name": "brainstorm",
-  "arguments": {
-    "prompt": "improve API documentation",
-    "methodology": "divergent",
-    "ideaCount": 25
-  }
+  name: 'brainstorm',
+  arguments: {
+    prompt: 'improve API documentation',
+    methodology: 'divergent',
+    ideaCount: 25,
+  },
 };
 
 // Convergent: Refine and focus
 const convergent = {
-  "name": "brainstorm",
-  "arguments": {
-    "prompt": "improve API documentation",
-    "methodology": "convergent",
-    "existingContext": "Have auto-generation, versioning, examples",
-    "ideaCount": 8
-  }
+  name: 'brainstorm',
+  arguments: {
+    prompt: 'improve API documentation',
+    methodology: 'convergent',
+    existingContext: 'Have auto-generation, versioning, examples',
+    ideaCount: 8,
+  },
 };
 
 // SCAMPER: Systematic exploration
 const scamper = {
-  "name": "brainstorm",
-  "arguments": {
-    "prompt": "improve API documentation",
-    "methodology": "scamper",
-    "ideaCount": 15
-  }
+  name: 'brainstorm',
+  arguments: {
+    prompt: 'improve API documentation',
+    methodology: 'scamper',
+    ideaCount: 15,
+  },
 };
 
 // Design Thinking: User-centered
 const designThinking = {
-  "name": "brainstorm",
-  "arguments": {
-    "prompt": "improve API documentation",
-    "methodology": "design-thinking",
-    "ideaCount": 12
-  }
+  name: 'brainstorm',
+  arguments: {
+    prompt: 'improve API documentation',
+    methodology: 'design-thinking',
+    ideaCount: 12,
+  },
 };
 
 // Lateral: Unexpected connections
 const lateral = {
-  "name": "brainstorm",
-  "arguments": {
-    "prompt": "improve API documentation",
-    "methodology": "lateral",
-    "ideaCount": 10
-  }
+  name: 'brainstorm',
+  arguments: {
+    prompt: 'improve API documentation',
+    methodology: 'lateral',
+    ideaCount: 10,
+  },
 };
 ```
 
@@ -398,7 +398,7 @@ Build on previous sessions:
 let session1 = await mcp.call('brainstorm', {
   prompt: 'ways to improve developer productivity',
   methodology: 'divergent',
-  ideaCount: 30
+  ideaCount: 30,
 });
 
 // Session 2: Deep dive on top ideas
@@ -406,7 +406,7 @@ let session2 = await mcp.call('brainstorm', {
   prompt: 'expand on top 5 productivity ideas',
   methodology: 'scamper',
   existingContext: session1,
-  ideaCount: 25
+  ideaCount: 25,
 });
 
 // Session 3: Implementation planning
@@ -415,7 +415,7 @@ let session3 = await mcp.call('brainstorm', {
   methodology: 'convergent',
   existingContext: session2,
   constraints: 'Q1 timeline, team of 4',
-  includeAnalysis: true
+  includeAnalysis: true,
 });
 ```
 
@@ -446,7 +446,7 @@ const microservices = await mcp.call('brainstorm', {
   prompt: 'benefits of microservices architecture for our platform',
   methodology: 'convergent',
   domain: 'software',
-  ideaCount: 10
+  ideaCount: 10,
 });
 
 // Option B: Modular Monolith
@@ -454,7 +454,7 @@ const monolith = await mcp.call('brainstorm', {
   prompt: 'benefits of modular monolith for our platform',
   methodology: 'convergent',
   domain: 'software',
-  ideaCount: 10
+  ideaCount: 10,
 });
 
 // Synthesis
@@ -462,13 +462,14 @@ const decision = await mcp.call('brainstorm', {
   prompt: 'synthesize architecture decision',
   existingContext: `Microservices: ${microservices}\nMonolith: ${monolith}`,
   methodology: 'convergent',
-  ideaCount: 5
+  ideaCount: 5,
 });
 ```
 
 ## Tips for Better Results
 
 ### 1. Provide Rich Context
+
 ```javascript
 // Good: Specific context
 {
@@ -484,6 +485,7 @@ const decision = await mcp.call('brainstorm', {
 ```
 
 ### 2. Use Appropriate Methodology
+
 - **New ideas:** `divergent`
 - **Refining solutions:** `convergent`
 - **Systematic exploration:** `scamper`
@@ -491,12 +493,15 @@ const decision = await mcp.call('brainstorm', {
 - **Creative breakthrough:** `lateral`
 
 ### 3. Iterate and Refine
+
 Start broad, then narrow focus based on promising ideas.
 
 ### 4. Combine with Analysis
+
 Use `includeAnalysis: true` for feasibility and impact assessment.
 
 ### 5. Set Realistic Counts
+
 - Quick session: 5-10 ideas
 - Thorough exploration: 15-25 ideas
 - Exhaustive analysis: 30+ ideas

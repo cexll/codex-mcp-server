@@ -31,6 +31,7 @@ This tool accepts no parameters.
 ```
 
 Returns comprehensive Codex CLI help including:
+
 - Available commands
 - Global options
 - Model information
@@ -90,11 +91,13 @@ Discover what Codex CLI can do:
 When unsure about syntax:
 
 1. Check help first:
+
 ```javascript
 { "name": "help", "arguments": {} }
 ```
 
 2. Use correct syntax:
+
 ```javascript
 {
   "name": "ask-codex",
@@ -108,6 +111,7 @@ When unsure about syntax:
 ### Discovering Models
 
 Help output includes available models:
+
 - GPT-5 (400K context)
 - o3 (200K context)
 - o4-mini (200K context, fast)
@@ -137,17 +141,20 @@ Help output includes available models:
 ## Common Information from Help
 
 ### Sandbox Modes
+
 - `read-only` - Only read files
 - `workspace-write` - Read and write in workspace
 - `danger-full-access` - Full system access
 
 ### Approval Policies
+
 - `never` - No approvals needed
 - `on-request` - Approve each action
 - `on-failure` - Approve on errors
 - `untrusted` - Always require approval
 
 ### File Reference Syntax
+
 - `@file.ts` - Include single file
 - `@dir/` - Include directory
 - `@**/*.ts` - Glob pattern
@@ -164,6 +171,7 @@ Help output includes available models:
 ### Interpreting Help Output
 
 Focus on:
+
 - **COMMANDS** section for available operations
 - **OPTIONS** section for parameters
 - **EXAMPLES** section for usage patterns

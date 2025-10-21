@@ -1,5 +1,5 @@
-import { spawn } from "child_process";
-import { Logger } from "./logger.js";
+import { spawn } from 'child_process';
+import { Logger } from './logger.js';
 
 export interface CommandResult {
   ok: boolean;
@@ -32,11 +32,11 @@ export async function executeCommandDetailed(
   args: string[],
   options: ExecuteOptions = {}
 ): Promise<CommandResult> {
-  const { 
-    onProgress, 
+  const {
+    onProgress,
     timeoutMs = 600000,
     maxOutputBytes = 50 * 1024 * 1024, // 50MB default
-    retry
+    retry,
   } = options;
 
   let attempt = 0;
@@ -44,17 +44,21 @@ export async function executeCommandDetailed(
 
   while (attempt < maxAttempts) {
     attempt++;
-    const result = await executeOnce(command, args, { onProgress, timeoutMs, maxOutputBytes });
-    
+    const result = await executeOnce(command, args, {
+      onProgress,
+      timeoutMs,
+      maxOutputBytes,
+    });
+
     if (result.ok) {
       return result;
     }
 
-    const shouldRetry = retry && (
-      (result.timedOut && retry.retryOn.includes('timeout')) ||
-      (result.code !== 0 && result.code !== null && retry.retryOn.includes('exit_nonzero')) ||
-      (result.code === null && !result.signal && retry.retryOn.includes('spawn_error'))
-    );
+    const shouldRetry =
+      retry &&
+      ((result.timedOut && retry.retryOn.includes('timeout')) ||
+        (result.code !== 0 && result.code !== null && retry.retryOn.includes('exit_nonzero')) ||
+        (result.code === null && !result.signal && retry.retryOn.includes('spawn_error')));
 
     if (!shouldRetry || attempt >= maxAttempts) {
       return result;
@@ -75,14 +79,14 @@ async function executeOnce(
   args: string[],
   { onProgress, timeoutMs, maxOutputBytes }: Omit<ExecuteOptions, 'retry'>
 ): Promise<CommandResult> {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     const startTime = Date.now();
     Logger.commandExecution(command, args, startTime);
 
     const childProcess = spawn(command, args, {
       env: process.env,
       shell: false,
-      stdio: ["ignore", "pipe", "pipe"],
+      stdio: ['ignore', 'pipe', 'pipe'],
     });
 
     const stdoutChunks: Buffer[] = [];
@@ -90,13 +94,13 @@ async function executeOnce(
     let totalStdoutBytes = 0;
     let isResolved = false;
     let outputExceeded = false;
-    
+
     // Set up timeout with SIGKILL fallback
     const timeoutId = setTimeout(() => {
       if (!isResolved) {
         childProcess.kill('SIGTERM');
         Logger.warn(`Process timeout after ${timeoutMs}ms, sending SIGTERM`);
-        
+
         // Give process 5 seconds to terminate gracefully
         setTimeout(() => {
           if (!isResolved) {
@@ -106,8 +110,8 @@ async function executeOnce(
         }, 5000);
       }
     }, timeoutMs || 600000);
-    
-    childProcess.stdout.on("data", (data: Buffer) => {
+
+    childProcess.stdout.on('data', (data: Buffer) => {
       // Check output size limit
       if (maxOutputBytes && totalStdoutBytes + data.length > maxOutputBytes) {
         if (!outputExceeded) {
@@ -120,24 +124,23 @@ async function executeOnce(
 
       stdoutChunks.push(data);
       totalStdoutBytes += data.length;
-      
+
       // Stream progress without buffering
       if (onProgress) {
         onProgress(data.toString('utf8'));
       }
     });
 
-
     // Capture stderr for error reporting
-    childProcess.stderr.on("data", (data: Buffer) => {
+    childProcess.stderr.on('data', (data: Buffer) => {
       stderrChunks.push(data);
     });
-    childProcess.on("error", (error) => {
+    childProcess.on('error', error => {
       if (!isResolved) {
         isResolved = true;
         clearTimeout(timeoutId);
         Logger.error(`Process error:`, error);
-        
+
         // Check for common errors
         const errorMessage = error.message;
         if ((error as any).code === 'ENOENT') {
@@ -146,7 +149,7 @@ async function executeOnce(
             code: null,
             stdout: '',
             stderr: `Command '${command}' not found. Is it installed and in PATH?`,
-            timedOut: false
+            timedOut: false,
           });
         } else {
           resolve({
@@ -154,22 +157,22 @@ async function executeOnce(
             code: null,
             stdout: Buffer.concat(stdoutChunks).toString('utf8'),
             stderr: errorMessage,
-            timedOut: false
+            timedOut: false,
           });
         }
       }
     });
-    childProcess.on("close", (code, signal) => {
+    childProcess.on('close', (code, signal) => {
       if (!isResolved) {
         isResolved = true;
         clearTimeout(timeoutId);
-        
+
         const stdout = Buffer.concat(stdoutChunks).toString('utf8');
         const stderr = Buffer.concat(stderrChunks).toString('utf8');
         const timedOut = signal === 'SIGTERM' || signal === 'SIGKILL';
-        
+
         Logger.commandComplete(startTime, code, stdout.length);
-        
+
         resolve({
           ok: code === 0 && !outputExceeded,
           code,
@@ -177,7 +180,7 @@ async function executeOnce(
           stdout: stdout.trim(),
           stderr: stderr.trim(),
           timedOut,
-          partialStdout: outputExceeded ? stdout : undefined
+          partialStdout: outputExceeded ? stdout : undefined,
         });
       }
     });
@@ -193,16 +196,19 @@ export async function executeCommand(
   onProgress?: (newOutput: string) => void,
   timeoutMs: number = 600000
 ): Promise<string> {
-  const result = await executeCommandDetailed(command, args, { onProgress, timeoutMs });
-  
+  const result = await executeCommandDetailed(command, args, {
+    onProgress,
+    timeoutMs,
+  });
+
   if (!result.ok) {
     const errorMessage = result.stderr || 'Unknown error';
     throw new Error(
-      result.timedOut 
+      result.timedOut
         ? `Command timed out after ${timeoutMs}ms`
         : `Command failed with exit code ${result.code}: ${errorMessage}`
     );
   }
-  
+
   return result.stdout;
 }
