@@ -18,3 +18,5 @@ docs/.vitepress/dist/
 *.dxt
 extension-build/
 CLAUDE.md
+
+sandbox/

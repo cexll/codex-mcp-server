@@ -1,6 +1,6 @@
 {
   "name": "@trishchuk/codex-mcp-tool",
-  "version": "1.0.6",
+  "version": "1.2.0",
   "description": "MCP server for Codex CLI integration",
   "type": "module",
   "main": "dist/index.js",
@@ -13,6 +13,8 @@
     "dev": "tsc && node dist/index.js",
     "test": "echo \"No tests yet\" && exit 0",
     "lint": "tsc --noEmit",
+    "format": "prettier --write \"src/**/*.{ts,js,json,md}\" \"docs/**/*.{md,json}\" \"*.{md,json}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,js,json,md}\" \"docs/**/*.{md,json}\" \"*.{md,json}\"",
     "prepublishOnly": "echo '⚠️  Remember to test locally first!' && npm run build",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
@@ -60,11 +62,12 @@
     "@types/node": "^18.19.124",
     "archiver": "^7.0.1",
     "mermaid": "^11.9.0",
+    "prettier": "^3.6.2",
+    "prismjs": "^1.30.0",
     "tsx": "^4.20.5",
     "typescript": "^5.0.0",
     "vitepress": "^1.6.4",
-    "vitepress-plugin-mermaid": "^2.0.17",
-    "prismjs": "^1.30.0"
+    "vitepress-plugin-mermaid": "^2.0.17"
   },
   "publishConfig": {
     "access": "public"

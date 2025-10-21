@@ -1,5 +1,9 @@
 import { Logger } from './logger.js';
-import { parseChangeModeOutput, validateChangeModeEdits, ChangeModeEdit } from './changeModeParser.js';
+import {
+  parseChangeModeOutput,
+  validateChangeModeEdits,
+  ChangeModeEdit,
+} from './changeModeParser.js';
 import { formatChangeModeResponse, summarizeChangeModeEdits } from './changeModeTranslator.js';
 import { chunkChangeModeEdits, EditChunk } from './changeModeChunker.js';
 import { cacheChunks, getChunks } from './chunkCache.js';
@@ -19,16 +23,18 @@ export async function processChangeModeOutput(
   options: ProcessChangeModeOptions = {}
 ): Promise<string> {
   const { chunkIndex, cacheKey: chunkCacheKey, prompt, autoRepair = true } = options;
-  
+
   // Validate chunk index
   if (chunkIndex !== undefined) {
     if (!Number.isInteger(chunkIndex) || chunkIndex < 1) {
       return `Invalid chunk index: ${chunkIndex}. Must be a positive integer starting from 1.`;
     }
-    
+
     if (chunkIndex > 1 && !chunkCacheKey) {
-      return `Chunk index ${chunkIndex} requested but no cache key provided. ` +
-             `Please use the cache key from the initial response or start with chunk 1.`;
+      return (
+        `Chunk index ${chunkIndex} requested but no cache key provided. ` +
+        `Please use the cache key from the initial response or start with chunk 1.`
+      );
     }
   }
   // Check for cached chunks first
@@ -38,17 +44,18 @@ export async function processChangeModeOutput(
       if (!cachedChunks || cachedChunks.length === 0) {
         return `Cache key '${chunkCacheKey}' not found or expired. Please regenerate the response.`;
       }
-      
+
       if (chunkIndex > cachedChunks.length) {
         return `Chunk index ${chunkIndex} out of range. Available chunks: 1-${cachedChunks.length}`;
       }
-      
+
       Logger.debug(`Using cached chunk ${chunkIndex} of ${cachedChunks.length}`);
       const chunk = cachedChunks[chunkIndex - 1];
-      let result = formatChangeModeResponse(
-        chunk.edits,
-        { current: chunkIndex, total: cachedChunks.length, cacheKey: chunkCacheKey }
-      );
+      let result = formatChangeModeResponse(chunk.edits, {
+        current: chunkIndex,
+        total: cachedChunks.length,
+        cacheKey: chunkCacheKey,
+      });
 
       // Add summary for first chunk only
       if (chunkIndex === 1 && chunk.edits.length > 5) {
@@ -65,15 +72,17 @@ export async function processChangeModeOutput(
 
   // Normalize line endings before parsing
   const normalizedResult = rawResult.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
-  
+
   let edits: ChangeModeEdit[];
   try {
     edits = parseChangeModeOutput(normalizedResult);
   } catch (error) {
     Logger.error('Failed to parse change mode output:', error);
     const snippet = normalizedResult.substring(0, 500);
-    return `Failed to parse change mode output: ${error instanceof Error ? error.message : 'Unknown error'}\n\n` +
-           `First 500 chars of output:\n${snippet}...`;
+    return (
+      `Failed to parse change mode output: ${error instanceof Error ? error.message : 'Unknown error'}\n\n` +
+      `First 500 chars of output:\n${snippet}...`
+    );
   }
 
   if (edits.length === 0) {
@@ -86,7 +95,7 @@ export async function processChangeModeOutput(
   let validation = validateChangeModeEdits(edits);
   if (!validation.valid && autoRepair) {
     Logger.debug('Attempting to auto-repair validation errors');
-    
+
     // Try to fix common issues
     edits = edits.map(edit => {
       // Fix missing end lines by inferring from code
@@ -100,14 +109,16 @@ export async function processChangeModeOutput(
       }
       return edit;
     });
-    
+
     // Re-validate after repair
     validation = validateChangeModeEdits(edits);
   }
-  
+
   if (!validation.valid) {
-    return `Edit validation failed after auto-repair attempt:\n${validation.errors.join('\n')}\n\n` +
-           `To debug, request the raw output or check the change mode format.`;
+    return (
+      `Edit validation failed after auto-repair attempt:\n${validation.errors.join('\n')}\n\n` +
+      `To debug, request the raw output or check the change mode format.`
+    );
   }
 
   let chunks: EditChunk[];
@@ -116,13 +127,15 @@ export async function processChangeModeOutput(
   } catch (error) {
     Logger.error('Failed to chunk edits:', error);
     // Fall back to single chunk
-    chunks = [{
-      edits,
-      chunkIndex: 1,
-      totalChunks: 1,
-      hasMore: false,
-      estimatedChars: JSON.stringify(edits).length
-    }];
+    chunks = [
+      {
+        edits,
+        chunkIndex: 1,
+        totalChunks: 1,
+        hasMore: false,
+        estimatedChars: JSON.stringify(edits).length,
+      },
+    ];
   }
 
   // Cache if multiple chunks and we have the original prompt
@@ -153,7 +166,8 @@ export async function processChangeModeOutput(
     result = summarizeChangeModeEdits(edits, chunks.length > 1) + '\n\n' + result;
   }
 
-  Logger.debug(`ChangeMode: Parsed ${edits.length} edits, ${chunks.length} chunks, returning chunk ${returnChunkIndex}`);
+  Logger.debug(
+    `ChangeMode: Parsed ${edits.length} edits, ${chunks.length} chunks, returning chunk ${returnChunkIndex}`
+  );
   return result;
 }
-

@@ -35,6 +35,7 @@ export function log(...args: unknown[]) {
 ## Using with ask-codex
 
 - Enable change mode:
+
 ```json
 {
   "name": "ask-codex",
@@ -44,8 +45,10 @@ export function log(...args: unknown[]) {
   }
 }
 ```
+
 - The server parses, validates, and may return the first chunk with a cacheKey when there are many edits.
 - Retrieve remaining chunks via `fetch-chunk`:
+
 ```json
 {
   "name": "fetch-chunk",
@@ -54,6 +57,7 @@ export function log(...args: unknown[]) {
 ```
 
 ## Best Practices
+
 - Make OLD unique by including enough surrounding lines if needed.
 - Keep edits minimal but complete (avoid partial lines).
 - If a string repeats (e.g., `</div>`), add context above/below so OLD matches once.

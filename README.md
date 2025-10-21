@@ -1,4 +1,3 @@
-
 # Codex MCP Tool
 
 <div align="center">
@@ -10,7 +9,6 @@
 [![Open Source](https://img.shields.io/badge/Open%20Source-❤️-red.svg)](https://github.com/x51xxx/codex-mcp-tool)
 
 </div>
-
 
 Codex MCP Tool is an open‑source Model Context Protocol (MCP) server that connects your IDE or AI assistant (Claude, Cursor, etc.) to the Codex CLI. It enables non‑interactive automation with `codex exec`, safe sandboxed edits with approvals, and large‑scale code analysis via `@` file references. Built for reliability and speed, it streams progress updates, supports structured change mode (OLD/NEW patch output), and integrates cleanly with standard MCP clients for code review, refactoring, documentation, and CI automation.
 
@@ -31,7 +29,6 @@ Before using this tool, ensure you have:
 1. **[Node.js](https://nodejs.org/)** (v18.0.0 or higher)
 2. **[Codex CLI](https://github.com/openai/codex)** installed and authenticated
 
-
 ### One-Line Setup
 
 ```bash
@@ -49,6 +46,7 @@ Type `/mcp` inside Claude Code to verify the Codex MCP is active.
 If you already have it configured in Claude Desktop:
 
 1. Add to your Claude Desktop config:
+
 ```json
 "codex-cli": {
   "command": "npx",
@@ -57,6 +55,7 @@ If you already have it configured in Claude Desktop:
 ```
 
 2. Import to Claude Code:
+
 ```bash
 claude mcp add-from-claude-desktop
 ```
@@ -114,19 +113,19 @@ After updating the configuration, restart your terminal session.
 
 ```javascript
 // Use the default gpt-5-codex model
-"explain the architecture of @src/"
+'explain the architecture of @src/';
 
 // Use gpt-5 for fast general purpose reasoning
-"use codex with model gpt-5 to analyze @config.json"
+'use codex with model gpt-5 to analyze @config.json';
 
 // Use o3 for deep reasoning tasks
-"use codex with model o3 to analyze complex algorithm in @algorithm.py"
+'use codex with model o3 to analyze complex algorithm in @algorithm.py';
 
 // Use o4-mini for quick tasks
-"use codex with model o4-mini to add comments to @utils.js"
+'use codex with model o4-mini to add comments to @utils.js';
 
 // Use codex-1 for software engineering
-"use codex with model codex-1 to refactor @legacy-code.js"
+'use codex with model codex-1 to refactor @legacy-code.js';
 ```
 
 ### With File References (using @ syntax)
@@ -157,13 +156,13 @@ Codex supports approval/sandbox modes. This server uses `codex exec` and can opt
 
 ```javascript
 // Using ask-codex with specific model
-"ask codex using gpt-5 to refactor @utils/database.js for better performance"
+'ask codex using gpt-5 to refactor @utils/database.js for better performance';
 
 // Brainstorming with constraints
-"brainstorm solutions for reducing API latency with constraints: 'must use existing infrastructure, budget under $5k'"
+"brainstorm solutions for reducing API latency with constraints: 'must use existing infrastructure, budget under $5k'";
 
 // Change mode for structured edits
-"use codex in change mode to update all console.log to use winston logger in @src/"
+'use codex in change mode to update all console.log to use winston logger in @src/';
 ```
 
 ### Tools (for the AI)

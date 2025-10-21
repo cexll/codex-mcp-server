@@ -35,8 +35,8 @@ Before installing, ensure you have:
 - **[Codex CLI](https://github.com/openai/codex)** installed and authenticated on your system
 - **[Claude Desktop](https://claude.ai/download)** or **[Claude Code](https://www.anthropic.com/claude-code)** with MCP support
 
-
 ## Claude Code (Recommended)
+
 ::: warning 💡 @trishchuk/codex-mcp-tool is tested extensively with Claude Code
 :::
 Claude Code offers the smoothest experience.
@@ -50,12 +50,14 @@ claude
 ```
 
 ## Claude Desktop
+
 ---
+
 #### Configuration File Locations
 
 <ConfigModal>
 
-*Where are my Claude Desktop Config Files?:*
+_Where are my Claude Desktop Config Files?:_
 
 - **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
 - **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
@@ -79,7 +81,7 @@ For Claude Desktop users, add this to your configuration file:
 ```
 
 ::: warning
-You must restart Claude Desktop ***completely*** for changes to take effect.
+You must restart Claude Desktop **_completely_** for changes to take effect.
 :::
 
 ## Other MCP Clients
@@ -87,6 +89,7 @@ You must restart Claude Desktop ***completely*** for changes to take effect.
 Codex MCP Tool works with 40+ MCP clients! Here are the common configuration patterns:
 
 ### STDIO Transport (Most Common)
+
 ```json
 {
   "transport": {
@@ -108,10 +111,7 @@ Codex MCP Tool works with 40+ MCP clients! Here are the common configuration pat
 {
   "codex-cli": {
     "command": "npx",
-    "args": [
-      "-y",
-      "@trishchuk/codex-mcp-tool"
-    ],
+    "args": ["-y", "@trishchuk/codex-mcp-tool"],
     "env": {},
     "working_directory": null,
     "start_on_launch": true
@@ -120,6 +120,7 @@ Codex MCP Tool works with 40+ MCP clients! Here are the common configuration pat
 ```
 
 **Features:** Terminal-native MCP integration, AI-powered command suggestions
+
 </details>
 
 ### Generic Setup Steps
@@ -134,17 +135,21 @@ Codex MCP Tool works with 40+ MCP clients! Here are the common configuration pat
 Once configured, test that everything is working:
 
 ### 1. Basic Connectivity Test
+
 Type in Claude:
+
 ```
 /codex-cli:ping (MCP) "Hello from Codex MCP!"
 ```
 
 ### 2. Test File Analysis
+
 ```
 /codex-cli:ask-codex (MCP) @README.md summarize this file
 ```
 
 ### 3. Test Sandbox Mode
+
 ```
 /codex-cli:ask-codex (MCP) --sandbox create a simple Bash hello world script
 ```
@@ -154,13 +159,16 @@ Type in Claude:
 Once installed, you can use natural language or slash commands:
 
 ### Natural Language Examples
+
 - "use codex to explain index.html"
 - "understand the massive project using codex"
 - "ask codex to analyze @src/main.ts and explain what it does"
 - "use codex to look for vulnerabilities and suggest fixes"
 
 ### Slash Commands in Claude Code
+
 Type `/codex-cli` and these commands will appear:
+
 - `/codex-cli:analyze` - Analyze files or ask questions
 - `/codex-cli:sandbox` - Safe code execution with full-auto mode
 - `/codex-cli:help` - Show help information
@@ -171,15 +179,18 @@ Type `/codex-cli` and these commands will appear:
 Don't see your MCP client listed? Codex MCP Tool uses standard MCP protocol and works with any compatible client.
 
 ::: tip Find More MCP Clients
+
 - **Official List**: [modelcontextprotocol.io/clients](https://modelcontextprotocol.io/clients)
 - **Configuration Help**: Most clients follow the STDIO transport pattern above
 - **Community**: Join discussions on GitHub for client-specific tips
-:::
+  :::
 
 ## Common Issues
 
 ### "Command not found: codex"
+
 Make sure you've installed the Codex CLI:
+
 ```bash
 # Check if Codex is installed
 which codex
@@ -189,6 +200,7 @@ which codex
 ```
 
 ### "MCP server not responding"
+
 0. Run `claude code --> /doctor` for diagnostics
 1. Check your configuration file path
 2. Ensure JSON syntax is correct
@@ -196,12 +208,14 @@ which codex
 4. Verify Codex CLI works: `codex --version`
 
 ### Client-Specific Issues
+
 - **Claude Desktop**: Must restart completely after config changes
 - **Other Clients**: Check their specific documentation for MCP setup
 
 ## Next Steps
 
 Now that you're set up:
+
 - Learn about file analysis with @ syntax
 - Explore sandbox mode for safe code execution with approval policies
 - Check out [Codex CLI usage guide](./codex-cli-getting-started) for advanced features

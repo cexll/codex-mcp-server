@@ -29,6 +29,7 @@ npm list -g @trishchuk/codex-mcp-tool
 **Problem:** Codex CLI is not installed or not in PATH.
 
 **Solution:**
+
 ```bash
 # Install Codex CLI
 curl -sSL https://codex.openai.com/install | bash
@@ -45,6 +46,7 @@ codex --version
 **Problem:** The MCP tool is not installed correctly.
 
 **Solution:**
+
 ```bash
 # For Claude Code
 claude mcp add codex-cli -- npx -y @trishchuk/codex-mcp-tool
@@ -65,6 +67,7 @@ npm list -g @trishchuk/codex-mcp-tool
 **Solutions:**
 
 1. **Check configuration syntax:**
+
 ```json
 {
   "mcpServers": {
@@ -77,10 +80,12 @@ npm list -g @trishchuk/codex-mcp-tool
 ```
 
 2. **Restart your MCP client:**
+
 - Claude Desktop: Quit and restart the application
 - Claude Code: Run `/restart` command
 
 3. **Check server logs:**
+
 ```bash
 # Enable debug mode
 DEBUG=codex-mcp:* npx @trishchuk/codex-mcp-tool
@@ -91,6 +96,7 @@ DEBUG=codex-mcp:* npx @trishchuk/codex-mcp-tool
 **Problem:** Codex CLI is not authenticated.
 
 **Solution:**
+
 ```bash
 # Authenticate Codex CLI
 codex auth login
@@ -111,6 +117,7 @@ export OPENAI_API_KEY="your-api-key"
 **Solutions:**
 
 1. **Adjust sandbox mode:**
+
 ```javascript
 {
   "prompt": "analyze @src/",
@@ -119,6 +126,7 @@ export OPENAI_API_KEY="your-api-key"
 ```
 
 2. **Check file permissions:**
+
 ```bash
 # Check file permissions
 ls -la /path/to/file
@@ -134,11 +142,13 @@ chmod 644 file.txt
 **Solutions:**
 
 1. **Check available models:**
+
 ```bash
 codex models list
 ```
 
 2. **Use fallback model:**
+
 ```javascript
 {
   "prompt": "your prompt",
@@ -153,16 +163,18 @@ codex models list
 **Solutions:**
 
 1. **Break down large tasks:**
+
 ```javascript
 // Instead of analyzing entire codebase
-"analyze @src/"
+'analyze @src/';
 
 // Analyze specific directories
-"analyze @src/utils/"
-"analyze @src/components/"
+'analyze @src/utils/';
+'analyze @src/components/';
 ```
 
 2. **Increase timeout (if configurable):**
+
 ```javascript
 {
   "prompt": "complex task",
@@ -179,18 +191,20 @@ codex models list
 **Solutions:**
 
 1. **Use correct path format:**
+
 ```javascript
 // Correct formats
-"@src/main.ts"         // Single file
-"@src/*.ts"            // Glob pattern
-"@src/**/*.ts"         // Recursive glob
+'@src/main.ts'; // Single file
+'@src/*.ts'; // Glob pattern
+'@src/**/*.ts'; // Recursive glob
 
 // Incorrect formats
-"@/src/main.ts"        // Don't use leading slash
-"@~/src/main.ts"       // Don't use home directory shortcut
+'@/src/main.ts'; // Don't use leading slash
+'@~/src/main.ts'; // Don't use home directory shortcut
 ```
 
 2. **Check working directory:**
+
 ```bash
 # Verify current directory
 pwd
@@ -206,6 +220,7 @@ cd /path/to/project
 **Problem:** Structured edits not parsing correctly.
 
 **Solution:**
+
 ```javascript
 // Ensure changeMode is enabled
 {
@@ -227,6 +242,7 @@ cd /path/to/project
 #### "xcrun: error: invalid active developer path"
 
 **Solution:**
+
 ```bash
 xcode-select --install
 ```
@@ -234,6 +250,7 @@ xcode-select --install
 #### "EACCES: permission denied"
 
 **Solution:**
+
 ```bash
 # Fix npm permissions
 sudo npm install -g @trishchuk/codex-mcp-tool --unsafe-perm
@@ -252,9 +269,10 @@ sudo npm install -g @trishchuk/codex-mcp-tool --unsafe-perm
 #### Path issues with spaces
 
 **Solution:**
+
 ```javascript
 // Use quotes for paths with spaces
-"@\"C:/Program Files/project/src/main.ts\""
+"@\"C:/Program Files/project/src/main.ts\"";
 ```
 
 ### Linux
@@ -262,6 +280,7 @@ sudo npm install -g @trishchuk/codex-mcp-tool --unsafe-perm
 #### "ENOSPC: System limit for number of file watchers reached"
 
 **Solution:**
+
 ```bash
 # Increase file watchers limit
 echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf
@@ -301,6 +320,7 @@ DEBUG=codex-mcp:parser npx @trishchuk/codex-mcp-tool
 ### Slow Response Times
 
 1. **Use faster models:**
+
 ```javascript
 {
   "model": "o4-mini"  // Faster than GPT-5
@@ -308,13 +328,15 @@ DEBUG=codex-mcp:parser npx @trishchuk/codex-mcp-tool
 ```
 
 2. **Optimize file references:**
+
 ```javascript
 // Be specific about files
-"@src/utils/helper.ts"  // Better
-"@src/**/*"             // Slower
+'@src/utils/helper.ts'; // Better
+'@src/**/*'; // Slower
 ```
 
 3. **Enable caching:**
+
 ```javascript
 {
   "cache": true,
@@ -325,13 +347,15 @@ DEBUG=codex-mcp:parser npx @trishchuk/codex-mcp-tool
 ### Memory Issues
 
 1. **Process files in batches:**
+
 ```javascript
 // Process directory by directory
-"analyze @src/module1/"
-"analyze @src/module2/"
+'analyze @src/module1/';
+'analyze @src/module2/';
 ```
 
 2. **Clear cache periodically:**
+
 ```bash
 rm -rf .codex-cache
 ```
@@ -368,6 +392,7 @@ claude --version  # For Claude Code
 ### Creating Bug Reports
 
 Include:
+
 - Clear description of the issue
 - Steps to reproduce
 - Expected vs actual behavior
@@ -380,6 +405,7 @@ Include:
 ### Can I use multiple models in one session?
 
 Yes, specify different models per request:
+
 ```javascript
 // First request
 { "prompt": "quick task", "model": "o4-mini" }
@@ -398,6 +424,7 @@ Yes, specify different models per request:
 ### Can I customize timeout settings?
 
 Currently managed internally, but you can:
+
 - Break down large tasks
 - Use background processing
 - Implement retry logic

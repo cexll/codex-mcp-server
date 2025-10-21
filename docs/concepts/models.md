@@ -5,29 +5,33 @@ The Codex MCP Tool provides access to OpenAI's latest models through the Codex C
 ## Available Models (2025)
 
 ### GPT-5 Series
+
 OpenAI's most advanced general-purpose models, delivering frontier-level reasoning and multimodal capabilities.
 
-| Model | Context Window | Max Output | Best For | Pricing |
-|-------|---------------|------------|----------|---------|
-| **GPT-5** | 400K tokens | 128K tokens | Complex reasoning, large codebases, multimodal analysis | $1.25/1M input, $10/1M output |
-| **GPT-5-mini** | 128K tokens | 32K tokens | Balanced performance and cost | Lower cost variant |
-| **GPT-5-nano** | 64K tokens | 16K tokens | Quick tasks, simple queries | Most cost-effective |
+| Model          | Context Window | Max Output  | Best For                                                | Pricing                       |
+| -------------- | -------------- | ----------- | ------------------------------------------------------- | ----------------------------- |
+| **GPT-5**      | 400K tokens    | 128K tokens | Complex reasoning, large codebases, multimodal analysis | $1.25/1M input, $10/1M output |
+| **GPT-5-mini** | 128K tokens    | 32K tokens  | Balanced performance and cost                           | Lower cost variant            |
+| **GPT-5-nano** | 64K tokens     | 16K tokens  | Quick tasks, simple queries                             | Most cost-effective           |
 
 **Key Features:**
+
 - Multimodal support (text + images)
 - 45% fewer factual errors than GPT-4o
 - Superior coding performance (74.9% on SWE-bench)
 - Excellent tool use and instruction following
 
 ### O-Series (Reasoning Models)
+
 Models trained to think longer before responding, optimized for complex reasoning tasks.
 
-| Model | Context Window | Max Output | Best For | Special Features |
-|-------|---------------|------------|----------|-----------------|
-| **o3** | 200K tokens | 100K tokens | Deep reasoning, complex architecture analysis | 20% fewer errors than o1 |
-| **o4-mini** | 200K tokens | 100K tokens | Fast, cost-efficient reasoning | 99.5% on AIME 2025 |
+| Model       | Context Window | Max Output  | Best For                                      | Special Features         |
+| ----------- | -------------- | ----------- | --------------------------------------------- | ------------------------ |
+| **o3**      | 200K tokens    | 100K tokens | Deep reasoning, complex architecture analysis | 20% fewer errors than o1 |
+| **o4-mini** | 200K tokens    | 100K tokens | Fast, cost-efficient reasoning                | 99.5% on AIME 2025       |
 
 **Key Features:**
+
 - Extended deliberation for complex problems
 - Agentic tool use capabilities
 - Web search integration
@@ -35,14 +39,15 @@ Models trained to think longer before responding, optimized for complex reasonin
 
 ### Specialized Models
 
-| Model | Purpose | Context | Notes |
-|-------|---------|---------|-------|
+| Model       | Purpose              | Context   | Notes                               |
+| ----------- | -------------------- | --------- | ----------------------------------- |
 | **codex-1** | Software engineering | Optimized | Based on o3, specialized for coding |
-| **GPT-4.1** | Legacy support | 1M tokens | Previous generation, stable |
+| **GPT-4.1** | Legacy support       | 1M tokens | Previous generation, stable         |
 
 ## How to Select a Model
 
 ### Using Codex CLI Directly
+
 ```bash
 # Specify model with --model flag
 codex --model gpt-5 "analyze @src/**/*.ts for performance issues"
@@ -51,6 +56,7 @@ codex --model o4-mini "quick review of @utils.js"
 ```
 
 ### Using MCP Tool (ask-codex)
+
 ```javascript
 // Natural language
 "use gpt-5 to analyze the entire codebase architecture"
@@ -68,6 +74,7 @@ codex --model o4-mini "quick review of @utils.js"
 ```
 
 ### Using Brainstorm Tool
+
 ```javascript
 {
   "name": "brainstorm",
@@ -104,6 +111,7 @@ For o-series models, you can control the reasoning depth:
 ```
 
 Higher effort levels:
+
 - Take longer to process
 - Generate more reasoning tokens
 - Provide more thorough analysis
@@ -114,26 +122,31 @@ Higher effort levels:
 ### By Task Type
 
 #### Code Review & Analysis
+
 - **Quick review**: o4-mini (fast, efficient)
 - **Comprehensive review**: GPT-5 (balanced)
 - **Security audit**: o3 (deep reasoning)
 
 #### Architecture & Design
+
 - **System design**: o3 (complex reasoning)
 - **API design**: GPT-5 (practical balance)
 - **Quick prototypes**: o4-mini (speed)
 
 #### Bug Investigation
+
 - **Complex bugs**: o3 (step-by-step reasoning)
 - **Performance issues**: GPT-5 (multimodal analysis)
 - **Simple fixes**: o4-mini (quick turnaround)
 
 #### Documentation
+
 - **API docs**: GPT-5 (comprehensive)
 - **Quick comments**: o4-mini (efficient)
 - **Architecture docs**: o3 (thorough understanding)
 
 #### Refactoring
+
 - **Large-scale**: GPT-5 (handles large context)
 - **Algorithm optimization**: o3 (reasoning depth)
 - **Simple cleanup**: o4-mini (cost-effective)
@@ -157,6 +170,7 @@ Higher effort levels:
 ## Cost Optimization Strategies
 
 ### 1. Start Small, Scale Up
+
 ```bash
 # Initial exploration
 codex --model o4-mini "@src quick overview"
@@ -169,14 +183,17 @@ codex --model o3 "@src/critical solve complex bug"
 ```
 
 ### 2. Use Cached Inputs
+
 GPT-5 offers cached input pricing ($0.125/1M vs $1.25/1M):
+
 ```javascript
 // Reuse identical prompts for efficiency
-const basePrompt = "@src/utils analyze for patterns";
+const basePrompt = '@src/utils analyze for patterns';
 // Multiple variations with same base get cached pricing
 ```
 
 ### 3. Match Model to Task Complexity
+
 ```javascript
 // Simple tasks - use mini models
 { "prompt": "add comments", "model": "o4-mini" }
@@ -191,12 +208,14 @@ const basePrompt = "@src/utils analyze for patterns";
 ## Performance Characteristics
 
 ### Response Times
+
 - **o4-mini**: Fastest responses, optimized for speed
 - **GPT-5**: Balanced latency, good for most tasks
 - **o3**: Longer processing for reasoning tasks
 - **GPT-4.1**: Variable based on context size
 
 ### Accuracy Benchmarks
+
 ```
 Mathematical Reasoning (AIME 2025):
 - o4-mini: 99.5% (with Python)
@@ -217,13 +236,16 @@ Multimodal Understanding (MMMU):
 ## Setting Default Models
 
 ### Environment Variable
+
 ```bash
 # Set default model for all operations
 export CODEX_DEFAULT_MODEL=gpt-5
 ```
 
 ### Configuration File
+
 In your Codex config (`~/.codex/config.toml`):
+
 ```toml
 [defaults]
 model = "gpt-5"
@@ -231,6 +253,7 @@ reasoning_effort = "medium"
 ```
 
 ### Per-Session Override
+
 ```bash
 # Override for current session
 codex --profile high-performance
@@ -240,18 +263,21 @@ codex --profile high-performance
 ## Model-Specific Features
 
 ### GPT-5 Exclusive
+
 - Native vision capabilities for images
 - Extended 400K context window
 - Cached input pricing
 - Optimized for agentic coding products
 
 ### O-Series Exclusive
+
 - Step-by-step reasoning traces
 - Agentic tool combination
 - Web search integration
 - Python interpreter access
 
 ### O4-mini Advantages
+
 - Fastest response times
 - Most cost-effective
 - Excellent for repetitive tasks
@@ -260,6 +286,7 @@ codex --profile high-performance
 ## Migration Guide
 
 ### From GPT-4 to GPT-5
+
 ```javascript
 // Old
 { "model": "gpt-4", "max_tokens": 4000 }
@@ -269,6 +296,7 @@ codex --profile high-performance
 ```
 
 ### From Older O-Models
+
 ```javascript
 // Old
 { "model": "o1-preview" }
@@ -280,6 +308,7 @@ codex --profile high-performance
 ## Troubleshooting
 
 ### Model Not Available
+
 ```bash
 # Check available models
 codex --list-models
@@ -289,6 +318,7 @@ try "gpt-5" -> fallback "o3" -> fallback "o4-mini"
 ```
 
 ### Context Too Large
+
 ```javascript
 // Split large contexts
 if (tokens > 400000) {
@@ -298,9 +328,10 @@ if (tokens > 400000) {
 ```
 
 ### Slow Responses
+
 ```javascript
 // Switch to faster model
-{ 
+{
   "model": "o4-mini",
   "reasoning_effort": "minimal"
 }
@@ -309,6 +340,7 @@ if (tokens > 400000) {
 ## Future Models
 
 OpenAI continues to develop new models. Check for updates:
+
 ```bash
 # Get latest model information
 codex --help models

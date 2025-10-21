@@ -66,6 +66,7 @@ npm run dev
 ### Testing with MCP Clients
 
 #### Claude Code
+
 ```bash
 # Build and link local development version
 npm run build
@@ -76,7 +77,9 @@ claude mcp add codex-dev --npm-package @trishchuk/codex-mcp-tool
 ```
 
 #### Claude Desktop
+
 Add to your configuration:
+
 ```json
 {
   "mcpServers": {
@@ -131,12 +134,13 @@ src/
 ### Adding a New Tool
 
 1. Create `src/tools/your-tool.tool.ts`:
+
 ```typescript
 import { z } from 'zod';
 import { UnifiedTool } from './registry.js';
 
 const yourToolArgsSchema = z.object({
-  param: z.string().describe('Parameter description')
+  param: z.string().describe('Parameter description'),
 });
 
 export const yourTool: UnifiedTool = {
@@ -149,20 +153,21 @@ export const yourTool: UnifiedTool = {
       {
         name: 'param',
         description: 'Parameter description',
-        required: true
-      }
-    ]
+        required: true,
+      },
+    ],
   },
   category: 'utility', // or 'simple'
   execute: async (args, onProgress) => {
     // Implementation
     onProgress?.('Processing...');
     return 'Tool result';
-  }
+  },
 };
 ```
 
 2. Register in `src/tools/index.ts`:
+
 ```typescript
 import { yourTool } from './your-tool.tool.js';
 
@@ -174,6 +179,7 @@ toolRegistry.push(yourTool);
 ### Commit Messages
 
 Follow conventional commits:
+
 - `feat:` New feature
 - `fix:` Bug fix
 - `docs:` Documentation changes
@@ -183,6 +189,7 @@ Follow conventional commits:
 - `chore:` Maintenance tasks
 
 Examples:
+
 ```
 feat: add support for GPT-5 model
 fix: handle timeout errors in ask-codex tool
@@ -207,6 +214,7 @@ npm test
 ### Manual Testing Checklist
 
 Before submitting a PR, test:
+
 - [ ] All tools work correctly with their documented parameters
 - [ ] ask-codex tool handles file references (@filename syntax)
 - [ ] changeMode returns structured OLD/NEW blocks
@@ -267,8 +275,10 @@ docs/
 - Include practical examples for all features
 - Link between related documentation pages
 - Use consistent parameter formatting:
+
   ```markdown
   ### paramName (required/optional)
+
   - **Type:** `string`
   - **Description:** What this parameter does
   - **Example:** `"example-value"`
@@ -285,6 +295,7 @@ Releases are automated via GitHub Actions:
 5. Push: `git push origin main --tags`
 
 The CI/CD pipeline will:
+
 - Run tests and linting
 - Build the project
 - Publish to npm as `@trishchuk/codex-mcp-tool`

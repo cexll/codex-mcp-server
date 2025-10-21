@@ -20,6 +20,7 @@ The `timeout-test` tool simulates long-running operations to test the MCP server
 ## Parameters
 
 ### duration (required)
+
 - **Type:** `number`
 - **Minimum:** `10` (milliseconds)
 - **Description:** How long the operation should run in milliseconds
@@ -98,6 +99,7 @@ Verify the server maintains connection:
 When operations fail due to timeouts:
 
 1. **Test with timeout-test first:**
+
 ```javascript
 {
   "name": "timeout-test",
@@ -172,9 +174,9 @@ Before running long tasks:
 async function timeoutTest(duration, progress) {
   const interval = 25000; // 25 seconds
   let elapsed = 0;
-  
+
   progress(`Starting test for ${duration}ms...`);
-  
+
   while (elapsed < duration) {
     await sleep(Math.min(interval, duration - elapsed));
     elapsed += interval;
@@ -182,7 +184,7 @@ async function timeoutTest(duration, progress) {
       progress(`Still running... ${elapsed}ms elapsed`);
     }
   }
-  
+
   return `Test completed successfully!`;
 }
 ```
@@ -192,11 +194,13 @@ async function timeoutTest(duration, progress) {
 ### Test Fails Before Duration
 
 **Possible causes:**
+
 1. MCP client timeout settings too low
 2. Network interruption
 3. Server resource constraints
 
 **Solutions:**
+
 ```javascript
 // Start with shorter duration
 { "duration": 5000 }  // 5 seconds
@@ -209,6 +213,7 @@ async function timeoutTest(duration, progress) {
 ### No Progress Updates
 
 **If no progress messages appear:**
+
 - Check MCP client supports progress notifications
 - Verify server logging is enabled
 - Try shorter duration to see if it completes
@@ -216,6 +221,7 @@ async function timeoutTest(duration, progress) {
 ### Connection Drops
 
 **If connection drops during test:**
+
 1. Check client timeout settings
 2. Verify network stability
 3. Monitor server resource usage
@@ -230,7 +236,7 @@ async function timeoutTest(duration, progress) {
 { "name": "timeout-test", "arguments": { "duration": 300000 } }
 
 // If successful, proceed with confidence
-{ "name": "ask-codex", "arguments": { 
+{ "name": "ask-codex", "arguments": {
   "prompt": "comprehensive security audit @/**/*",
   "model": "gpt-5"
 }}
@@ -239,6 +245,7 @@ async function timeoutTest(duration, progress) {
 ### 2. Incremental Testing
 
 Start small and increase:
+
 ```javascript
 // Test sequence
 { "duration": 10000 }   // 10 seconds
@@ -249,6 +256,7 @@ Start small and increase:
 ### 3. Monitor Resource Usage
 
 During long tests, monitor:
+
 - CPU usage
 - Memory consumption
 - Network stability
@@ -279,10 +287,10 @@ During long tests, monitor:
 const healthCheck = async () => {
   // Quick connectivity test
   await mcp.call('ping', {});
-  
+
   // Timeout handling test
   await mcp.call('timeout-test', { duration: 30000 });
-  
+
   // Ready for long operations
   console.log('System healthy');
 };

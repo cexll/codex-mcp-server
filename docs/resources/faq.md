@@ -9,6 +9,7 @@ Codex MCP Tool is a Model Context Protocol (MCP) server that bridges OpenAI's Co
 ### Why use Codex MCP Tool instead of Codex CLI directly?
 
 **Benefits of using Codex MCP Tool:**
+
 - **Non-interactive execution** - No manual prompts or confirmations needed
 - **Integration** - Works seamlessly with Claude Desktop/Code
 - **File references** - Use @ syntax to include files easily
@@ -19,6 +20,7 @@ Codex MCP Tool is a Model Context Protocol (MCP) server that bridges OpenAI's Co
 ### Which AI models are supported?
 
 Currently supported OpenAI models:
+
 - **GPT-5** - 400K context, best for complex tasks
 - **o3** - 200K context, advanced reasoning
 - **o4-mini** - 200K context, fast and cost-effective
@@ -39,19 +41,23 @@ No, this is a community-developed integration tool. It uses the official Codex C
 ### How do I install Codex MCP Tool?
 
 **For Claude Code (recommended):**
+
 ```bash
 claude mcp add codex-cli -- npx -y @trishchuk/codex-mcp-tool
 ```
 
 **For Claude Desktop:**
+
 ```bash
 npm install -g @trishchuk/codex-mcp-tool
 ```
+
 Then add to your configuration file.
 
 ### Where is the configuration file located?
 
 **Claude Desktop configuration locations:**
+
 - **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
 - **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
 - **Linux:** `~/.config/claude/claude_desktop_config.json`
@@ -59,6 +65,7 @@ Then add to your configuration file.
 ### How do I verify the installation?
 
 Test with these commands in your MCP client:
+
 ```javascript
 // Test connectivity
 /codex-cli:ping "Hello"
@@ -75,32 +82,34 @@ Test with these commands in your MCP client:
 ### How do I reference files in my prompts?
 
 Use the @ syntax:
+
 ```javascript
 // Single file
-"explain @src/main.ts"
+'explain @src/main.ts';
 
 // Multiple files
-"compare @src/old.ts @src/new.ts"
+'compare @src/old.ts @src/new.ts';
 
 // Glob patterns
-"review @src/*.ts"
-"analyze @src/**/*.ts"
+'review @src/*.ts';
+'analyze @src/**/*.ts';
 
 // With paths containing spaces (use quotes)
-"@\"My Documents/project/file.ts\""
+"@\"My Documents/project/file.ts\"";
 ```
 
 ### What's the difference between sandbox modes?
 
-| Mode | Read | Write | Delete | Execute | Use Case |
-|------|------|-------|--------|---------|----------|
-| `read-only` | ✅ | ❌ | ❌ | ❌ | Analysis, reviews |
-| `workspace-write` | ✅ | ✅ | ⚠️ | ❌ | Refactoring, generation |
-| `danger-full-access` | ✅ | ✅ | ✅ | ✅ | Full automation |
+| Mode                 | Read | Write | Delete | Execute | Use Case                |
+| -------------------- | ---- | ----- | ------ | ------- | ----------------------- |
+| `read-only`          | ✅   | ❌    | ❌     | ❌      | Analysis, reviews       |
+| `workspace-write`    | ✅   | ✅    | ⚠️     | ❌      | Refactoring, generation |
+| `danger-full-access` | ✅   | ✅    | ✅     | ✅      | Full automation         |
 
 ### How do I use different models?
 
 Specify the model in your request:
+
 ```javascript
 {
   "name": "ask-codex",
@@ -114,6 +123,7 @@ Specify the model in your request:
 ### What is changeMode?
 
 ChangeMode returns structured file edits instead of conversational responses:
+
 ```javascript
 {
   "prompt": "refactor this code",
@@ -125,6 +135,7 @@ ChangeMode returns structured file edits instead of conversational responses:
 ### How do I handle large responses?
 
 For large changeMode responses, use chunking:
+
 ```javascript
 // Initial request returns cacheKey
 { "prompt": "large refactor", "changeMode": true }
@@ -147,6 +158,7 @@ For large changeMode responses, use chunking:
 ### How does the brainstorm tool work?
 
 The brainstorm tool offers multiple methodologies:
+
 ```javascript
 {
   "prompt": "ways to improve performance",
@@ -160,6 +172,7 @@ The brainstorm tool offers multiple methodologies:
 ### Can I create custom tools?
 
 Yes! Create a new tool in `src/tools/`:
+
 ```typescript
 // src/tools/my-tool.tool.ts
 export const myTool: UnifiedTool = {
@@ -168,13 +181,14 @@ export const myTool: UnifiedTool = {
   schema: MyToolSchema,
   async execute(args, progress) {
     // Implementation
-  }
+  },
 };
 ```
 
 ### How do progress notifications work?
 
 Long-running operations send progress updates every 25 seconds:
+
 ```javascript
 // In tool implementation
 progress?.('Processing file 1 of 10...');
@@ -187,22 +201,24 @@ progress?.('Generating output...');
 ### Is my code sent to OpenAI?
 
 Yes, when you use Codex MCP Tool, your prompts and referenced files are sent to OpenAI's API for processing. Ensure you:
+
 - Don't include sensitive data
 - Review OpenAI's data usage policies
 - Use appropriate sandbox modes
 
 ### How do approval policies work?
 
-| Policy | Description | Use Case |
-|--------|-------------|----------|
-| `never` | No approvals needed | Trusted automation |
-| `on-request` | Approve each action | Careful operation |
-| `on-failure` | Approve on errors | Semi-automated |
-| `untrusted` | Always require approval | Maximum safety |
+| Policy       | Description             | Use Case           |
+| ------------ | ----------------------- | ------------------ |
+| `never`      | No approvals needed     | Trusted automation |
+| `on-request` | Approve each action     | Careful operation  |
+| `on-failure` | Approve on errors       | Semi-automated     |
+| `untrusted`  | Always require approval | Maximum safety     |
 
 ### Can I use this in production?
 
 Codex MCP Tool is designed for development environments. For production:
+
 - Review security implications
 - Implement proper access controls
 - Monitor API usage and costs
@@ -211,6 +227,7 @@ Codex MCP Tool is designed for development environments. For production:
 ### Are API keys stored securely?
 
 API keys should be:
+
 - Set via environment variables (`OPENAI_API_KEY`)
 - Never committed to version control
 - Managed through Codex CLI authentication
@@ -221,6 +238,7 @@ API keys should be:
 ### Why is the tool not responding?
 
 Check:
+
 1. Codex CLI is installed: `codex --version`
 2. Authentication is valid: `codex auth status`
 3. MCP server is running: restart your client
@@ -255,6 +273,7 @@ DEBUG=codex-mcp:* npx @trishchuk/codex-mcp-tool
 ### Can I use multiple MCP servers simultaneously?
 
 Yes, configure multiple servers in your MCP client:
+
 ```json
 {
   "mcpServers": {
@@ -267,6 +286,7 @@ Yes, configure multiple servers in your MCP client:
 ### How do I contribute to the project?
 
 See our [Contributing Guide](https://github.com/x51xxx/codex-mcp-tool/blob/main/CONTRIBUTING.md):
+
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
@@ -281,6 +301,7 @@ See our [Contributing Guide](https://github.com/x51xxx/codex-mcp-tool/blob/main/
 ### Can I use this with other AI providers?
 
 Currently, Codex MCP Tool is designed for OpenAI's models via Codex CLI. For other providers, consider:
+
 - Forking and adapting the codebase
 - Using different MCP servers
 - Contributing multi-provider support
@@ -296,18 +317,18 @@ Currently, Codex MCP Tool is designed for OpenAI's models via Codex CLI. For oth
 
 ### What are the context limits?
 
-| Model | Context Window | Recommended Max |
-|-------|---------------|-----------------|
-| GPT-5 | 400K tokens | 350K tokens |
-| o3 | 200K tokens | 180K tokens |
-| o4-mini | 200K tokens | 180K tokens |
+| Model   | Context Window | Recommended Max |
+| ------- | -------------- | --------------- |
+| GPT-5   | 400K tokens    | 350K tokens     |
+| o3      | 200K tokens    | 180K tokens     |
+| o4-mini | 200K tokens    | 180K tokens     |
 
 ### How do I estimate costs?
 
 ```javascript
 // Rough cost calculation
-tokens = prompt_length + file_content_length + response_length
-cost = (tokens / 1000) * model_price_per_1k
+tokens = prompt_length + file_content_length + response_length;
+cost = (tokens / 1000) * model_price_per_1k;
 
 // Model prices (as of 2025)
 // GPT-5: $0.015/1K input, $0.060/1K output

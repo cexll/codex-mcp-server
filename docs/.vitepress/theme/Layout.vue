@@ -6,7 +6,7 @@
     </template>
     <template #nav-bar-content-before>
       <div class="nav-warning">
-        🏷️ <span>1.0.0</span>
+        🏷️ <span>1.2.0</span>
       </div>
     </template>
     <template #sidebar-nav-after>

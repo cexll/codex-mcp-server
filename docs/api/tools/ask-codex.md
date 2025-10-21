@@ -28,42 +28,49 @@ The `ask-codex` tool provides non-interactive execution of Codex commands, suppo
 ## Parameters
 
 ### prompt (required)
+
 - **Type:** `string`
 - **Description:** The command or question to execute
 - **Supports:** File references with @ syntax
 - **Example:** `"explain @src/main.ts"`
 
 ### model (optional)
+
 - **Type:** `string`
 - **Default:** Codex CLI default (usually gpt-5)
 - **Options:** `"gpt-5"`, `"o3"`, `"o4-mini"`
 - **Example:** `"model": "o4-mini"`
 
 ### sandbox (optional)
+
 - **Type:** `boolean`
 - **Default:** `false`
 - **Description:** Alias for fullAuto mode
 - **Effect:** Enables workspace-write + on-failure approval
 
 ### fullAuto (optional)
+
 - **Type:** `boolean`
 - **Default:** `false`
 - **Description:** Enable full automation mode
 - **Effect:** Sets workspace-write sandbox and on-failure approval
 
 ### approvalPolicy (optional)
+
 - **Type:** `string`
 - **Options:** `"never"`, `"on-request"`, `"on-failure"`, `"untrusted"`
 - **Default:** Codex CLI default
 - **Description:** Controls when approval is required
 
 ### sandboxMode (optional)
+
 - **Type:** `string`
 - **Options:** `"read-only"`, `"workspace-write"`, `"danger-full-access"`
 - **Default:** Codex CLI default
 - **Description:** Controls file system access level
 
 ### changeMode (optional)
+
 - **Type:** `boolean`
 - **Default:** `false`
 - **Description:** Return structured OLD/NEW edits instead of conversational response
@@ -71,6 +78,7 @@ The `ask-codex` tool provides non-interactive execution of Codex commands, suppo
 - **See:** [Change Mode Format](../../concepts/change-mode.md) for detailed documentation
 
 ### chunkIndex (optional)
+
 - **Type:** `number` or `string`
 - **Description:** Retrieve a specific chunk from cached changeMode results
 - **Minimum:** `1` (1-based indexing)
@@ -78,17 +86,20 @@ The `ask-codex` tool provides non-interactive execution of Codex commands, suppo
 - **Note:** Must be used with `chunkCacheKey`
 
 ### chunkCacheKey (optional)
+
 - **Type:** `string`
 - **Description:** Cache key for retrieving chunks from previous changeMode response
 - **Example:** `"a3f2c8d1"`
 - **Note:** Alternative to using the `fetch-chunk` tool
 
 ### cd (optional)
+
 - **Type:** `string`
 - **Description:** Working directory for Codex execution
 - **Example:** `"/path/to/project"`
 
 ### yolo (optional)
+
 - **Type:** `boolean`
 - **Default:** `false`
 - **Description:** Bypass all approvals and sandbox (use with extreme caution)
@@ -102,17 +113,17 @@ Include files in your prompts using the @ symbol:
 
 ```javascript
 // Single file
-"analyze @src/main.ts"
+'analyze @src/main.ts';
 
 // Multiple files
-"compare @src/old.ts @src/new.ts"
+'compare @src/old.ts @src/new.ts';
 
 // Glob patterns
-"review @src/*.ts"
-"analyze @src/**/*.ts"
+'review @src/*.ts';
+'analyze @src/**/*.ts';
 
 // Entire directory
-"document @src/"
+'document @src/';
 ```
 
 ### Path Resolution
@@ -191,12 +202,14 @@ Include files in your prompts using the @ symbol:
 When `changeMode: true`, the response format changes:
 
 ### Standard Response
+
 ```
 Here's the refactored code with modern syntax...
 [conversational explanation]
 ```
 
 ### Change Mode Response
+
 ```
 OLD:
 <<<
@@ -242,13 +255,13 @@ For large changeMode responses, use chunking:
 
 ### Common Errors
 
-| Error | Cause | Solution |
-|-------|-------|----------|
-| `Model not available` | Model access denied | Use different model or check API access |
-| `File not found` | Invalid @ reference | Verify file path and working directory |
-| `Permission denied` | Sandbox restriction | Adjust sandboxMode parameter |
-| `Timeout exceeded` | Long operation | Break into smaller tasks |
-| `Authentication failed` | Invalid Codex auth | Run `codex auth login` |
+| Error                   | Cause               | Solution                                |
+| ----------------------- | ------------------- | --------------------------------------- |
+| `Model not available`   | Model access denied | Use different model or check API access |
+| `File not found`        | Invalid @ reference | Verify file path and working directory  |
+| `Permission denied`     | Sandbox restriction | Adjust sandboxMode parameter            |
+| `Timeout exceeded`      | Long operation      | Break into smaller tasks                |
+| `Authentication failed` | Invalid Codex auth  | Run `codex auth login`                  |
 
 ### Error Response Format
 
@@ -265,6 +278,7 @@ For large changeMode responses, use chunking:
 ### 1. Start with Read-Only
 
 Begin with analysis before modification:
+
 ```javascript
 // First: analyze
 { "prompt": "analyze @src/", "sandboxMode": "read-only" }
@@ -276,17 +290,19 @@ Begin with analysis before modification:
 ### 2. Use Specific File References
 
 Be precise to improve performance:
+
 ```javascript
 // Good: specific files
-"analyze @src/auth/login.ts @src/auth/logout.ts"
+'analyze @src/auth/login.ts @src/auth/logout.ts';
 
 // Avoid: entire codebase
-"analyze @**/*"
+'analyze @**/*';
 ```
 
 ### 3. Choose Appropriate Models
 
 Match model to task complexity:
+
 - **o4-mini**: Quick tasks, simple queries
 - **o3**: Complex reasoning, detailed analysis
 - **gpt-5**: Large context, comprehensive refactoring
@@ -294,6 +310,7 @@ Match model to task complexity:
 ### 4. Enable Change Mode for Edits
 
 For code modifications:
+
 ```javascript
 {
   "prompt": "update imports to use aliases",
@@ -304,6 +321,7 @@ For code modifications:
 ### 5. Set Working Directory
 
 For consistent file resolution:
+
 ```javascript
 {
   "prompt": "analyze @src/",
@@ -351,10 +369,10 @@ const result = execSync('npx @trishchuk/codex-mcp-tool', {
       name: 'ask-codex',
       arguments: {
         prompt: 'analyze @src/',
-        model: 'o4-mini'
-      }
-    }
-  })
+        model: 'o4-mini',
+      },
+    },
+  }),
 });
 ```
 

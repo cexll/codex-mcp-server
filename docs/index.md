@@ -2,8 +2,8 @@
 layout: home
 
 hero:
-  name: "Codex MCP Tool"
-  text: "Connect the Codex CLI to the MCP Ecosystem"
+  name: 'Codex MCP Tool'
+  text: 'Connect the Codex CLI to the MCP Ecosystem'
   tagline: "Leverage OpenAI's Codex models in any client that supports the standardized MCP protocol—<span style='color: #FFFFFF; background-color: #D97706; padding: 2px 8px; border-radius: 6px; font-size: 14px; font-weight: 600; margin-left: 4px; display: inline-block; vertical-align: middle;'>built for Claude Code</span>"
   actions:
     - theme: brand
@@ -24,7 +24,7 @@ features:
     details: Direct access to GPT-5 and other OpenAI models through Codex CLI.
   - icon: 🤝
     title: Claude's coding partner
-    details: Let Claude use Codex naturally for complex code analysis and generation. 
+    details: Let Claude use Codex naturally for complex code analysis and generation.
   - icon: 🔌
     title: MCP Standards
     details: |

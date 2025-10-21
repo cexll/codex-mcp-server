@@ -9,7 +9,8 @@ export interface ChangeModeEdit {
 }
 export function parseChangeModeOutput(toolResponse: string): ChangeModeEdit[] {
   const edits: ChangeModeEdit[] = [];
-  const markdownPattern = /\*\*FILE:\s*(.+?):(\d+)\*\*\s*\n```\s*\nOLD:\s*\n([\s\S]*?)\nNEW:\s*\n([\s\S]*?)\n```/g;
+  const markdownPattern =
+    /\*\*FILE:\s*(.+?):(\d+)\*\*\s*\n```\s*\nOLD:\s*\n([\s\S]*?)\nNEW:\s*\n([\s\S]*?)\n```/g;
 
   let match;
   while ((match = markdownPattern.exec(toolResponse)) !== null) {
@@ -39,7 +40,8 @@ export function parseChangeModeOutput(toolResponse: string): ChangeModeEdit[] {
   }
 
   if (edits.length === 0) {
-    const editPattern = /\/old\/ \* (.+?) 'start:' (\d+)\n([\s\S]*?)\n\/\/ 'end:' (\d+)\s*\n\s*\\new\\ \* (.+?) 'start:' (\d+)\n([\s\S]*?)\n\/\/ 'end:' (\d+)/g;
+    const editPattern =
+      /\/old\/ \* (.+?) 'start:' (\d+)\n([\s\S]*?)\n\/\/ 'end:' (\d+)\s*\n\s*\\new\\ \* (.+?) 'start:' (\d+)\n([\s\S]*?)\n\/\/ 'end:' (\d+)/g;
 
     while ((match = editPattern.exec(toolResponse)) !== null) {
       const [
@@ -85,11 +87,15 @@ export function validateChangeModeEdits(edits: ChangeModeEdit[]): {
     }
 
     if (edit.oldStartLine > edit.oldEndLine) {
-      errors.push(`Invalid line range for ${edit.filename}: ${edit.oldStartLine} > ${edit.oldEndLine}`);
+      errors.push(
+        `Invalid line range for ${edit.filename}: ${edit.oldStartLine} > ${edit.oldEndLine}`
+      );
     }
 
     if (edit.newStartLine > edit.newEndLine) {
-      errors.push(`Invalid new line range for ${edit.filename}: ${edit.newStartLine} > ${edit.newEndLine}`);
+      errors.push(
+        `Invalid new line range for ${edit.filename}: ${edit.newStartLine} > ${edit.newEndLine}`
+      );
     }
 
     if (!edit.oldCode && !edit.newCode) {
