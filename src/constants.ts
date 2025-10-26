@@ -93,6 +93,7 @@ export const CLI = {
     SANDBOX_MODE: '--sandbox',
     APPROVAL: '-a',
     YOLO: '--dangerously-bypass-approvals-and-sandbox',
+    SKIP_GIT_REPO_CHECK: '--skip-git-repo-check',
     CD: '--cd',
     PROMPT: '-p',
     HELP: '-help',

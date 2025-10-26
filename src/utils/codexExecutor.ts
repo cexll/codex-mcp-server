@@ -82,6 +82,13 @@ export async function executeCodexCLI(
         'Search/OSS enabled: auto-setting sandbox to workspace-write for network access'
       );
       args.push(CLI.FLAGS.SANDBOX_MODE, 'workspace-write');
+    } else if (options?.approvalPolicy) {
+      // Smart default: if approvalPolicy is set but no sandboxMode specified,
+      // auto-enable workspace-write to prevent read-only permission errors
+      Logger.debug(
+        'Approval policy set without sandbox mode: auto-setting sandbox to workspace-write'
+      );
+      args.push(CLI.FLAGS.SANDBOX_MODE, 'workspace-write');
     }
   }
 
@@ -124,6 +131,9 @@ export async function executeCodexCLI(
       args.push(CLI.FLAGS.DISABLE, feature);
     }
   }
+
+  // Skip git repo check (not all environments are git repos)
+  args.push(CLI.FLAGS.SKIP_GIT_REPO_CHECK);
 
   // Non-interactive run
   args.push('exec');
@@ -224,6 +234,11 @@ export async function executeCodex(
         'Search/OSS enabled: auto-setting sandbox to workspace-write for network access'
       );
       args.push(CLI.FLAGS.SANDBOX_MODE, 'workspace-write');
+    } else if (options?.approval || options?.approvalPolicy) {
+      // Smart default: if approval is set but no sandboxMode specified,
+      // auto-enable workspace-write to prevent read-only permission errors
+      Logger.debug('Approval set without sandbox mode: auto-setting sandbox to workspace-write');
+      args.push(CLI.FLAGS.SANDBOX_MODE, 'workspace-write');
     }
   }
 
@@ -288,6 +303,9 @@ export async function executeCodex(
       args.push(CLI.FLAGS.DISABLE, feature);
     }
   }
+
+  // Skip git repo check (not all environments are git repos)
+  args.push(CLI.FLAGS.SKIP_GIT_REPO_CHECK);
 
   // Use exec mode for non-interactive execution
   if (options?.useExec !== false) {

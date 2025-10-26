@@ -1,5 +1,5 @@
 {
-  "name": "@trishchuk/codex-mcp-tool",
+  "name": "@cexll/codex-mcp-server",
   "version": "1.2.0",
   "description": "MCP server for Codex CLI integration",
   "type": "module",
@@ -38,12 +38,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/x51xxx/codex-mcp-tool.git"
+    "url": "git+https://github.com/cexll/codex-mcp-server.git"
   },
   "bugs": {
-    "url": "https://github.com/x51xxx/codex-mcp-tool/issues"
+    "url": "https://github.com/cexll/codex-mcp-server/issues"
   },
-  "homepage": "https://github.com/x51xxx/codex-mcp-tool#readme",
+  "homepage": "https://github.com/cexll/codex-mcp-server#readme",
   "engines": {
     "node": ">=18.0.0"
   },

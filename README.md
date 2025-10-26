@@ -3,8 +3,8 @@
 <div align="center">
 
 [![GitHub Release](https://img.shields.io/github/v/release/x51xxx/codex-mcp-tool?logo=github&label=GitHub)](https://github.com/x51xxx/codex-mcp-tool/releases)
-[![npm version](https://img.shields.io/npm/v/@trishchuk/codex-mcp-tool)](https://www.npmjs.com/package/@trishchuk/codex-mcp-tool)
-[![npm downloads](https://img.shields.io/npm/dt/@trishchuk/codex-mcp-tool)](https://www.npmjs.com/package/@trishchuk/codex-mcp-tool)
+[![npm version](https://img.shields.io/npm/v/@cexll/codex-mcp-server)](https://www.npmjs.com/package/@cexll/codex-mcp-server)
+[![npm downloads](https://img.shields.io/npm/dt/@cexll/codex-mcp-server)](https://www.npmjs.com/package/@cexll/codex-mcp-server)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Open Source](https://img.shields.io/badge/Open%20Source-❤️-red.svg)](https://github.com/x51xxx/codex-mcp-tool)
 
@@ -14,8 +14,8 @@ Codex MCP Tool is an open‑source Model Context Protocol (MCP) server that conn
 
 - Ask Codex questions from your MCP client, or brainstorm ideas programmatically.
 
-<a href="https://glama.ai/mcp/servers/@trishchuk/codex-mcp-tool">
-  <img width="380" height="200" src="https://glama.ai/mcp/servers/@trishchuk/codex-mcp-tool/badge" alt="Codex Tool MCP server" />
+<a href="https://glama.ai/mcp/servers/@cexll/codex-mcp-server">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@cexll/codex-mcp-server/badge" alt="Codex Tool MCP server" />
 </a>
 
 ## TLDR: [![Claude](https://img.shields.io/badge/Claude-D97757?logo=claude&logoColor=fff)](#) + Codex CLI
@@ -32,7 +32,7 @@ Before using this tool, ensure you have:
 ### One-Line Setup
 
 ```bash
-claude mcp add codex-cli -- npx -y @trishchuk/codex-mcp-tool
+claude mcp add codex-cli -- npx -y @cexll/codex-mcp-server
 ```
 
 ### Verify Installation
@@ -50,7 +50,7 @@ If you already have it configured in Claude Desktop:
 ```json
 "codex-cli": {
   "command": "npx",
-  "args": ["-y", "@trishchuk/codex-mcp-tool"]
+  "args": ["-y", "@cexll/codex-mcp-server"]
 }
 ```
 
@@ -73,7 +73,7 @@ Add this configuration to your Claude Desktop config file:
   "mcpServers": {
     "codex-cli": {
       "command": "npx",
-      "args": ["-y", "@trishchuk/codex-mcp-tool"]
+      "args": ["-y", "@cexll/codex-mcp-server"]
     }
   }
 }
@@ -147,10 +147,121 @@ After updating the configuration, restart your terminal session.
 
 ### Codex Approvals & Sandbox
 
-Codex supports approval/sandbox modes. This server uses `codex exec` and can opt into `--full-auto` when `sandbox=true`.
+Codex CLI supports fine-grained control over permissions and approvals through sandbox modes and approval policies.
+
+#### Understanding Parameters
+
+**The `sandbox` Parameter (Convenience Flag):**
+
+- `sandbox: true` → Enables **fullAuto** mode (equivalent to `fullAuto: true`)
+- `sandbox: false` (default) → Does **NOT** disable sandboxing, just doesn't enable auto mode
+- **Important:** The `sandbox` parameter is a convenience flag, not a security control
+
+**Granular Control Parameters:**
+
+- `sandboxMode`: Controls file system access level
+- `approvalPolicy`: Controls when user approval is required
+- `fullAuto`: Shorthand for `sandboxMode: "workspace-write"` + `approvalPolicy: "on-failure"`
+- `yolo`: ⚠️ Bypasses all safety checks (dangerous, not recommended)
+
+#### Sandbox Modes
+
+| Mode                  | Description                          | Use Case                                          |
+| --------------------- | ------------------------------------ | ------------------------------------------------- |
+| `read-only`           | Analysis only, no file modifications | Code review, exploration, documentation reading   |
+| `workspace-write`     | Can modify files in workspace        | Most development tasks, refactoring, bug fixes    |
+| `danger-full-access`  | Full system access including network | Advanced automation, CI/CD pipelines              |
+
+#### Approval Policies
+
+| Policy        | Description                      | When to Use                         |
+| ------------- | -------------------------------- | ----------------------------------- |
+| `never`       | No approvals required            | Fully trusted automation            |
+| `on-request`  | Ask before every action          | Maximum control, manual review      |
+| `on-failure`  | Only ask when operations fail    | Balanced automation (recommended)   |
+| `untrusted`   | Maximum paranoia mode            | Untrusted code or high-risk changes |
+
+#### Configuration Examples
+
+**Example 1: Balanced Automation (Recommended)**
+
+```javascript
+{
+  "approvalPolicy": "on-failure",
+  "sandboxMode": "workspace-write",  // Auto-set if omitted in v1.2+
+  "model": "gpt-5-codex",
+  "prompt": "refactor @src/utils for better performance"
+}
+```
+
+**Example 2: Quick Automation (Convenience Mode)**
+
+```javascript
+{
+  "sandbox": true,  // Equivalent to fullAuto: true
+  "model": "gpt-5-codex",
+  "prompt": "fix type errors in @src/"
+}
+```
+
+**Example 3: Read-Only Analysis**
+
+```javascript
+{
+  "sandboxMode": "read-only",
+  "model": "gpt-5-codex",
+  "prompt": "analyze @src/ and explain the architecture"
+}
+```
+
+#### Smart Defaults (v1.2+)
+
+Starting from version 1.2.0, the server automatically applies intelligent defaults to prevent permission errors:
+
+- ✅ If `approvalPolicy` is set but `sandboxMode` is not → auto-sets `sandboxMode: "workspace-write"`
+- ✅ If `search: true` or `oss: true` → auto-sets `sandboxMode: "workspace-write"` (for network access)
+- ✅ All commands include `--skip-git-repo-check` to prevent errors in non-git environments
+
+#### Troubleshooting Permission Errors
+
+If you encounter `❌ Permission Error: Operation blocked by sandbox policy`:
+
+**Check 1: Verify sandboxMode**
+
+```bash
+# Ensure you're not using read-only mode for write operations
+{
+  "sandboxMode": "workspace-write",  // Not "read-only"
+  "approvalPolicy": "on-failure"
+}
+```
+
+**Check 2: Use convenience flags**
+
+```bash
+# Let the server handle defaults
+{
+  "sandbox": true,  // Simple automation
+  "prompt": "your task"
+}
+```
+
+**Check 3: Update to latest version**
+
+```bash
+# v1.2+ includes smart defaults to prevent permission errors
+npm install -g @cexll/codex-mcp-server@latest
+```
+
+#### Basic Examples
 
 - `use codex to create and run a Python script that processes data`
 - `ask codex to safely test @script.py and explain what it does`
+
+**Default Behavior:**
+
+- All `codex exec` commands automatically include `--skip-git-repo-check` to avoid unnecessary git repository checks, as not all execution environments are git repositories.
+- This prevents permission errors when running Codex in non-git directories or when git checks would interfere with automation.
 
 ### Advanced Examples
 
@@ -184,6 +295,7 @@ These tools are designed to be used by the AI assistant.
   - `sandbox=true` enables `--full-auto` mode
   - `changeMode=true` returns structured OLD/NEW edits
   - Supports approval policies and sandbox modes
+  - **Automatically includes `--skip-git-repo-check`** to prevent permission errors in non-git environments
 
 - **`brainstorm`**: Generate novel ideas with structured methodologies.
   - Multiple frameworks: divergent, convergent, SCAMPER, design-thinking, lateral

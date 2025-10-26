@@ -218,9 +218,46 @@ npm install -g @openai/codex
       if (errorMessage.includes('sandbox') || errorMessage.includes('permission')) {
         return `❌ **Permission Error**: ${ERROR_MESSAGES.SANDBOX_VIOLATION}
 
+**Root Cause:**
+This error typically occurs when:
+1. \`approvalPolicy\` is set without \`sandboxMode\` (now auto-fixed in v1.2+)
+2. Explicit \`sandboxMode: "read-only"\` blocks file modifications
+3. Codex CLI defaults to restrictive permissions
+
 **Solutions:**
-1. Relax sandbox: Use \`sandboxMode: "workspace-write"\`
-2. Adjust approval: Try \`approval: "on-request"\``;
+
+**Option A - Explicit Control (Recommended):**
+\`\`\`json
+{
+  "approvalPolicy": "on-failure",
+  "sandboxMode": "workspace-write",
+  "model": "gpt-5-codex",
+  "prompt": "your task..."
+}
+\`\`\`
+
+**Option B - Automated Mode:**
+\`\`\`json
+{
+  "sandbox": true,  // Enables fullAuto (workspace-write + on-failure)
+  "model": "gpt-5-codex",
+  "prompt": "your task..."
+}
+\`\`\`
+
+**Option C - Full Bypass (⚠️ Use with caution):**
+\`\`\`json
+{
+  "yolo": true,
+  "model": "gpt-5-codex",
+  "prompt": "your task..."
+}
+\`\`\`
+
+**Sandbox Modes:**
+- \`read-only\`: Analysis only, no modifications
+- \`workspace-write\`: Can edit files in workspace (safe for most tasks)
+- \`danger-full-access\`: Full system access (use with caution)`;
       }
 
       // Generic error with context
