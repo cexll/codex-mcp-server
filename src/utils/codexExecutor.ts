@@ -132,11 +132,11 @@ export async function executeCodexCLI(
     }
   }
 
-  // Skip git repo check (not all environments are git repos)
-  args.push(CLI.FLAGS.SKIP_GIT_REPO_CHECK);
-
   // Non-interactive run
   args.push('exec');
+
+  // Skip git repo check (not all environments are git repos)
+  args.push(CLI.FLAGS.SKIP_GIT_REPO_CHECK);
 
   // Add conciseness instruction
   const concisePrompt = `Please provide a focused, concise response without unnecessary elaboration. ${prompt}`;
@@ -304,14 +304,14 @@ export async function executeCodex(
     }
   }
 
-  // Skip git repo check (not all environments are git repos)
-  args.push(CLI.FLAGS.SKIP_GIT_REPO_CHECK);
-
   // Use exec mode for non-interactive execution
   if (options?.useExec !== false) {
     // Default to true for non-interactive execution
     args.push('exec');
   }
+
+  // Skip git repo check (not all environments are git repos)
+  args.push(CLI.FLAGS.SKIP_GIT_REPO_CHECK);
 
   // Add the prompt
   args.push(prompt);
