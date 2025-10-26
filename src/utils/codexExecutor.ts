@@ -222,7 +222,7 @@ export async function executeCodex(
     if (options?.approval || options?.approvalPolicy) {
       const approvalValue = options.approval || options.approvalPolicy;
       if (approvalValue) {
-        args.push(CLI.FLAGS.APPROVAL, approvalValue);
+        args.push(CLI.FLAGS.ASK_FOR_APPROVAL, approvalValue);
       }
     }
     // Sandbox mode

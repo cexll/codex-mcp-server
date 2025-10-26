@@ -216,13 +216,28 @@ npm install -g @openai/codex
       }
 
       if (errorMessage.includes('sandbox') || errorMessage.includes('permission')) {
+        // Enhanced debugging information
+        const debugInfo = [
+          `**Current Configuration:**`,
+          `- yolo: ${yolo}`,
+          `- fullAuto: ${fullAuto}`,
+          `- sandbox: ${sandbox}`,
+          `- sandboxMode: ${sandboxMode}`,
+          `- approvalPolicy: ${approvalPolicy}`,
+          `- search: ${search}`,
+          `- oss: ${oss}`
+        ].join('\n');
+
         return `❌ **Permission Error**: ${ERROR_MESSAGES.SANDBOX_VIOLATION}
+
+${debugInfo}
 
 **Root Cause:**
 This error typically occurs when:
 1. \`approvalPolicy\` is set without \`sandboxMode\` (now auto-fixed in v1.2+)
 2. Explicit \`sandboxMode: "read-only"\` blocks file modifications
 3. Codex CLI defaults to restrictive permissions
+4. **YOLO mode not working**: If yolo is true but still blocked, there may be a configuration conflict
 
 **Solutions:**
 
@@ -253,6 +268,11 @@ This error typically occurs when:
   "prompt": "your task..."
 }
 \`\`\`
+
+**Debug Steps:**
+1. Check if yolo mode is being overridden by other settings
+2. Verify Codex CLI version supports yolo flag
+3. Try using only yolo without other conflicting parameters
 
 **Sandbox Modes:**
 - \`read-only\`: Analysis only, no modifications
