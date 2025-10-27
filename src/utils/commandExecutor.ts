@@ -1,4 +1,4 @@
-import { spawn } from 'child_process';
+import spawn from 'cross-spawn';
 import { Logger } from './logger.js';
 
 export interface CommandResult {
@@ -85,7 +85,7 @@ async function executeOnce(
 
     const childProcess = spawn(command, args, {
       env: process.env,
-      shell: true,
+      // cross-spawn automatically handles shell mode and .cmd extensions on Windows
       stdio: ['ignore', 'pipe', 'pipe'],
     });
 
@@ -111,7 +111,7 @@ async function executeOnce(
       }
     }, timeoutMs || 600000);
 
-    childProcess.stdout.on('data', (data: Buffer) => {
+    childProcess.stdout?.on('data', (data: Buffer) => {
       // Check output size limit
       if (maxOutputBytes && totalStdoutBytes + data.length > maxOutputBytes) {
         if (!outputExceeded) {
@@ -132,7 +132,7 @@ async function executeOnce(
     });
 
     // Capture stderr for error reporting
-    childProcess.stderr.on('data', (data: Buffer) => {
+    childProcess.stderr?.on('data', (data: Buffer) => {
       stderrChunks.push(data);
     });
     childProcess.on('error', error => {
@@ -144,11 +144,21 @@ async function executeOnce(
         // Check for common errors
         const errorMessage = error.message;
         if ((error as any).code === 'ENOENT') {
+          // Enhanced Windows diagnostics
+          const isWindows = process.platform === 'win32';
+          const diagMessage = isWindows
+            ? `Command '${command}' not found. Windows troubleshooting:\n` +
+              `1. Verify installation: Run 'npm list -g ${command}' in cmd\n` +
+              `2. Check PATH: Ensure npm global bin is in PATH (typically C:\\Users\\[username]\\AppData\\Roaming\\npm)\n` +
+              `3. Restart terminal after installing global packages\n` +
+              `4. Try running as Administrator if permission issues occur`
+            : `Command '${command}' not found. Is it installed and in PATH?`;
+
           resolve({
             ok: false,
             code: null,
             stdout: '',
-            stderr: `Command '${command}' not found. Is it installed and in PATH?`,
+            stderr: diagMessage,
             timedOut: false,
           });
         } else {

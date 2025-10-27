@@ -54,10 +54,12 @@
   ],
   "dependencies": {
     "@modelcontextprotocol/sdk": "^0.6.1",
+    "cross-spawn": "^7.0.6",
     "zod": "^3.25.76",
     "zod-to-json-schema": "^3.24.6"
   },
   "devDependencies": {
+    "@types/cross-spawn": "^6.0.6",
     "@types/inquirer": "^9.0.0",
     "@types/node": "^18.19.124",
     "archiver": "^7.0.1",

@@ -258,6 +258,43 @@ sudo npm install -g @cexll/codex-mcp-server --unsafe-perm
 
 ### Windows
 
+#### "spawn codex ENOENT" - Command not found (v1.2.3+ Fixed)
+
+**Problem:** Windows reports "Error: spawn codex ENOENT" even though Codex CLI is installed.
+
+**Root Cause:** This was a cross-platform compatibility issue with Node.js spawn on Windows, where `.cmd` extensions were not automatically resolved.
+
+**Fixed in v1.2.3:** Now using `cross-spawn` package for automatic Windows compatibility.
+
+**If still experiencing issues:**
+
+1. **Verify Codex is in PATH:**
+
+```bash
+# In Command Prompt or PowerShell
+where codex
+codex --version
+
+# Check npm global bin path
+npm config get prefix
+```
+
+2. **Ensure npm global bin is in PATH:**
+
+- Typical location: `C:\Users\[username]\AppData\Roaming\npm`
+- Add to System PATH via:
+  - Settings → System → About → Advanced system settings → Environment Variables
+  - Add npm global bin directory to PATH
+
+3. **Restart terminal after PATH changes**
+
+4. **Verify installation:**
+
+```bash
+npm list -g codex-cli
+npm list -g @cexll/codex-mcp-server
+```
+
 #### "EPERM: operation not permitted"
 
 **Solutions:**
