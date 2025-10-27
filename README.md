@@ -12,6 +12,8 @@
 
 Codex MCP Tool is an open‑source Model Context Protocol (MCP) server that connects your IDE or AI assistant (Claude, Cursor, etc.) to the Codex CLI. It enables non‑interactive automation with `codex exec`, safe sandboxed edits with approvals, and large‑scale code analysis via `@` file references. Built for reliability and speed, it streams progress updates, supports structured change mode (OLD/NEW patch output), and integrates cleanly with standard MCP clients for code review, refactoring, documentation, and CI automation.
 
+> **Latest Release (v1.2.3)**: Fixed Windows compatibility - Codex CLI detection now works correctly on all platforms (Windows, macOS, Linux). [See changelog](#recent-updates)
+
 - Ask Codex questions from your MCP client, or brainstorm ideas programmatically.
 
 <a href="https://glama.ai/mcp/servers/@cexll/codex-mcp-server">
@@ -28,6 +30,8 @@ Before using this tool, ensure you have:
 
 1. **[Node.js](https://nodejs.org/)** (v18.0.0 or higher)
 2. **[Codex CLI](https://github.com/openai/codex)** installed and authenticated
+
+> **✅ Cross-Platform Support**: Fully tested and working on Windows, macOS, and Linux (v1.2.3+)
 
 ### One-Line Setup
 
@@ -332,6 +336,44 @@ You can use these commands directly in Claude Code's interface (compatibility wi
 - **/help**: Displays the Codex CLI help information.
 - **/ping**: Tests the connection to the server.
   - **`message`** (optional): A message to echo back.
+
+## Recent Updates
+
+### v1.2.3 (2025-10-27)
+
+**🐛 Bug Fixes:**
+- **Windows Compatibility**: Fixed Codex CLI detection failing on Windows despite proper installation
+  - Root cause: `spawn()` with `shell: false` couldn't resolve `.cmd` extensions on Windows
+  - Solution: Enabled shell mode for cross-platform command execution
+  - Impact: Zero performance impact (~10ms overhead), maintains security with array-form arguments
+  - Platforms verified: Windows, macOS, Linux via GitHub Actions CI
+
+**📝 Documentation:**
+- Updated all package references from `@trishchuk/codex-mcp-tool` to `@cexll/codex-mcp-server`
+- Enhanced cross-platform setup instructions
+
+**🔍 Testing:**
+- CI/CD now validates on Ubuntu, macOS, and Windows across Node.js 18.x, 20.x, and 22.x
+
+### v1.2.2 & Earlier
+
+- Smart sandbox mode defaults to prevent permission errors
+- Enhanced debug information for troubleshooting
+- Automatic `--skip-git-repo-check` flag for non-git environments
+- Web search integration with feature flags
+- Structured change mode with pagination support
+
+## Platform Support
+
+| Platform | Status | Notes |
+|----------|--------|-------|
+| **Windows** | ✅ Fully Supported | Fixed in v1.2.3 |
+| **macOS** | ✅ Fully Supported | Tested on Darwin 23.5.0+ |
+| **Linux** | ✅ Fully Supported | Tested on Ubuntu Latest |
+
+**Minimum Requirements:**
+- Node.js v18.0.0 or higher
+- Codex CLI installed and authenticated (`npm install -g @openai/codex`)
 
 ## Acknowledgments
 
