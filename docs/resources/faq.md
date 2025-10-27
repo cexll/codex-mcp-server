@@ -43,13 +43,13 @@ No, this is a community-developed integration tool. It uses the official Codex C
 **For Claude Code (recommended):**
 
 ```bash
-claude mcp add codex-cli -- npx -y @trishchuk/codex-mcp-tool
+claude mcp add codex-cli -- npx -y @cexll/codex-mcp-server
 ```
 
 **For Claude Desktop:**
 
 ```bash
-npm install -g @trishchuk/codex-mcp-tool
+npm install -g @cexll/codex-mcp-server
 ```
 
 Then add to your configuration file.
@@ -248,10 +248,10 @@ Check:
 
 ```bash
 # Enable all debug output
-DEBUG=* npx @trishchuk/codex-mcp-tool
+DEBUG=* npx @cexll/codex-mcp-server
 
 # Enable specific modules
-DEBUG=codex-mcp:* npx @trishchuk/codex-mcp-tool
+DEBUG=codex-mcp:* npx @cexll/codex-mcp-server
 ```
 
 ### What if I get "model not available"?

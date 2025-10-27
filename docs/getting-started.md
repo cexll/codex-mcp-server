@@ -9,14 +9,14 @@
     <p>One-command setup</p>
     <a href="#claude-code-recommended" class="client-button">Get Started →</a>
   </div>
-  
+
   <div class="client-card">
     <h3>🖥️ <br>Claude Desktop</h3>
     <div class="client-badge">Everyday users</div>
     <p>JSON configuration</p>
     <a href="#claude-desktop" class="client-button">Setup Guide →</a>
   </div>
-  
+
   <div class="client-card">
     <h3>📂 Other Clients</h3>
     <div class="client-badge">40+ Options</div>
@@ -37,13 +37,13 @@ Before installing, ensure you have:
 
 ## Claude Code (Recommended)
 
-::: warning 💡 @trishchuk/codex-mcp-tool is tested extensively with Claude Code
+::: warning 💡 @cexll/codex-mcp-server is tested extensively with Claude Code
 :::
 Claude Code offers the smoothest experience.
 
 ```bash
 # install for Claude Code
-claude mcp add codex-cli -- npx -y @trishchuk/codex-mcp-tool
+claude mcp add codex-cli -- npx -y @cexll/codex-mcp-server
 
 # Start Claude Code - it's automatically configured!
 claude
@@ -74,7 +74,7 @@ For Claude Desktop users, add this to your configuration file:
   "mcpServers": {
     "codex-cli": {
       "command": "npx",
-      "args": ["-y", "@trishchuk/codex-mcp-tool"]
+      "args": ["-y", "@cexll/codex-mcp-server"]
     }
   }
 }
@@ -95,7 +95,7 @@ Codex MCP Tool works with 40+ MCP clients! Here are the common configuration pat
   "transport": {
     "type": "stdio",
     "command": "npx",
-    "args": ["-y", "@trishchuk/codex-mcp-tool"]
+    "args": ["-y", "@cexll/codex-mcp-server"]
   }
 }
 ```
@@ -111,7 +111,7 @@ Codex MCP Tool works with 40+ MCP clients! Here are the common configuration pat
 {
   "codex-cli": {
     "command": "npx",
-    "args": ["-y", "@trishchuk/codex-mcp-tool"],
+    "args": ["-y", "@cexll/codex-mcp-server"],
     "env": {},
     "working_directory": null,
     "start_on_launch": true

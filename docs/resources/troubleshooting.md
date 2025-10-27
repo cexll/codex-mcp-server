@@ -14,7 +14,7 @@ codex --version
 node --version
 
 # Check npm installation
-npm list -g @trishchuk/codex-mcp-tool
+npm list -g @cexll/codex-mcp-server
 
 # Test MCP connection (in Claude)
 /codex-cli:ping "test"
@@ -41,7 +41,7 @@ npm install -g codex-cli
 codex --version
 ```
 
-#### "Cannot find module '@trishchuk/codex-mcp-tool'"
+#### "Cannot find module '@cexll/codex-mcp-server'"
 
 **Problem:** The MCP tool is not installed correctly.
 
@@ -49,13 +49,13 @@ codex --version
 
 ```bash
 # For Claude Code
-claude mcp add codex-cli -- npx -y @trishchuk/codex-mcp-tool
+claude mcp add codex-cli -- npx -y @cexll/codex-mcp-server
 
 # For global installation
-npm install -g @trishchuk/codex-mcp-tool
+npm install -g @cexll/codex-mcp-server
 
 # Verify installation
-npm list -g @trishchuk/codex-mcp-tool
+npm list -g @cexll/codex-mcp-server
 ```
 
 ### Connection Issues
@@ -73,7 +73,7 @@ npm list -g @trishchuk/codex-mcp-tool
   "mcpServers": {
     "codex-cli": {
       "command": "npx",
-      "args": ["-y", "@trishchuk/codex-mcp-tool"]
+      "args": ["-y", "@cexll/codex-mcp-server"]
     }
   }
 }
@@ -88,7 +88,7 @@ npm list -g @trishchuk/codex-mcp-tool
 
 ```bash
 # Enable debug mode
-DEBUG=codex-mcp:* npx @trishchuk/codex-mcp-tool
+DEBUG=codex-mcp:* npx @cexll/codex-mcp-server
 ```
 
 #### "Authentication failed"
@@ -253,7 +253,7 @@ xcode-select --install
 
 ```bash
 # Fix npm permissions
-sudo npm install -g @trishchuk/codex-mcp-tool --unsafe-perm
+sudo npm install -g @cexll/codex-mcp-server --unsafe-perm
 ```
 
 ### Windows
@@ -295,12 +295,12 @@ Enable detailed logging for troubleshooting:
 
 ```bash
 # Enable all debug output
-DEBUG=* npx @trishchuk/codex-mcp-tool
+DEBUG=* npx @cexll/codex-mcp-server
 
 # Enable specific modules
-DEBUG=codex-mcp:* npx @trishchuk/codex-mcp-tool
-DEBUG=codex-mcp:executor npx @trishchuk/codex-mcp-tool
-DEBUG=codex-mcp:parser npx @trishchuk/codex-mcp-tool
+DEBUG=codex-mcp:* npx @cexll/codex-mcp-server
+DEBUG=codex-mcp:executor npx @cexll/codex-mcp-server
+DEBUG=codex-mcp:parser npx @cexll/codex-mcp-server
 ```
 
 ### Logging Levels
@@ -374,7 +374,7 @@ npm --version
 codex --version
 
 # Package information
-npm list -g @trishchuk/codex-mcp-tool
+npm list -g @cexll/codex-mcp-server
 
 # Error logs
 cat ~/.codex/logs/error.log

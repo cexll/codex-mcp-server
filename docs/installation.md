@@ -21,7 +21,7 @@ No installation needed - runs directly:
   "mcpServers": {
     "codex-cli": {
       "command": "npx",
-      "args": ["-y", "@trishchuk/codex-mcp-tool"]
+      "args": ["-y", "@cexll/codex-mcp-server"]
     }
   }
 }
@@ -30,7 +30,7 @@ No installation needed - runs directly:
 ### Claude Code Configuration
 
 ```bash
-claude mcp add codex-cli --npm-package @trishchuk/codex-mcp-tool
+claude mcp add codex-cli --npm-package @cexll/codex-mcp-server
 ```
 
 ## Method 2: Global Installation
@@ -38,7 +38,7 @@ claude mcp add codex-cli --npm-package @trishchuk/codex-mcp-tool
 ### Install globally
 
 ```bash
-npm install -g @trishchuk/codex-mcp-tool
+npm install -g @cexll/codex-mcp-server
 ```
 
 ### Claude Desktop Configuration

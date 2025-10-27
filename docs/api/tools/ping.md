@@ -144,7 +144,7 @@ If ping doesn't respond:
   "mcpServers": {
     "codex-cli": {
       "command": "npx",
-      "args": ["-y", "@trishchuk/codex-mcp-tool"]
+      "args": ["-y", "@cexll/codex-mcp-server"]
     }
   }
 }
@@ -153,7 +153,7 @@ If ping doesn't respond:
 2. **Verify installation:**
 
 ```bash
-npm list -g @trishchuk/codex-mcp-tool
+npm list -g @cexll/codex-mcp-server
 ```
 
 3. **Restart client:**

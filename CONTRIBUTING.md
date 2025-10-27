@@ -73,7 +73,7 @@ npm run build
 npm link
 
 # Add to Claude Code
-claude mcp add codex-dev --npm-package @trishchuk/codex-mcp-tool
+claude mcp add codex-dev --npm-package @cexll/codex-mcp-server
 ```
 
 #### Claude Desktop
@@ -298,7 +298,7 @@ The CI/CD pipeline will:
 
 - Run tests and linting
 - Build the project
-- Publish to npm as `@trishchuk/codex-mcp-tool`
+- Publish to npm as `@cexll/codex-mcp-server`
 - Create GitHub release
 
 ## Getting Help

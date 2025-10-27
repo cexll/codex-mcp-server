@@ -32,7 +32,7 @@ rm -rf "$TEMP_DIR"
 echo "📥 Cloning wiki repository..."
 git clone "$WIKI_REPO" "$TEMP_DIR" 2>/dev/null || {
     echo "⚠️  Wiki doesn't exist yet. Creating initial wiki through GitHub..."
-    
+
     # Try to create initial wiki page through API
     gh api "repos/${REPO_OWNER}/${REPO_NAME}/wiki/pages" \
         --method POST \
@@ -43,7 +43,7 @@ git clone "$WIKI_REPO" "$TEMP_DIR" 2>/dev/null || {
         echo "Then scroll down to 'Features' and check 'Wikis'"
         exit 1
     }
-    
+
     # Try cloning again
     sleep 2
     git clone "$WIKI_REPO" "$TEMP_DIR" || {
@@ -96,7 +96,7 @@ Codex MCP Tool is a Model Context Protocol (MCP) server that enables seamless in
 
 - [GitHub Issues](https://github.com/x51xxx/codex-mcp-tool/issues)
 - [Documentation](https://x51xxx.github.io/codex-mcp-tool/)
-- [NPM Package](https://www.npmjs.com/package/@trishchuk/codex-mcp-tool)
+- [NPM Package](https://www.npmjs.com/package/@cexll/codex-mcp-server)
 EOF
 
 # Getting Started page
@@ -116,7 +116,7 @@ Before installing, ensure you have:
 ### For Claude Code (Recommended)
 
 ```bash
-claude mcp add codex-cli -- npx -y @trishchuk/codex-mcp-tool
+claude mcp add codex-cli -- npx -y @cexll/codex-mcp-server
 ```
 
 ### For Claude Desktop
@@ -128,7 +128,7 @@ Add to your configuration file:
   "mcpServers": {
     "codex-cli": {
       "command": "npx",
-      "args": ["-y", "@trishchuk/codex-mcp-tool"]
+      "args": ["-y", "@cexll/codex-mcp-server"]
     }
   }
 }
@@ -315,7 +315,7 @@ cat > Troubleshooting.md << 'EOF'
 1. Check configuration file syntax
 2. Restart your MCP client
 3. Run diagnostics: `claude code --> /doctor`
-4. Verify npm package: `npm list -g @trishchuk/codex-mcp-tool`
+4. Verify npm package: `npm list -g @cexll/codex-mcp-server`
 
 ### "Permission denied" errors
 - Check sandbox mode settings
@@ -367,7 +367,7 @@ cat > _Sidebar.md << 'EOF'
 * [[Troubleshooting]]
 
 **Links**
-* [📦 NPM Package](https://www.npmjs.com/package/@trishchuk/codex-mcp-tool)
+* [📦 NPM Package](https://www.npmjs.com/package/@cexll/codex-mcp-server)
 * [🐙 GitHub Repo](https://github.com/x51xxx/codex-mcp-tool)
 * [📋 Issues](https://github.com/x51xxx/codex-mcp-tool/issues)
 * [📖 Docs](https://x51xxx.github.io/codex-mcp-tool/)
@@ -376,9 +376,9 @@ EOF
 # Create footer
 cat > _Footer.md << 'EOF'
 ---
-📄 [MIT License](https://github.com/x51xxx/codex-mcp-tool/blob/main/LICENSE) | 
-🔧 [Contribute](https://github.com/x51xxx/codex-mcp-tool) | 
-📦 [NPM](https://www.npmjs.com/package/@trishchuk/codex-mcp-tool) |
+📄 [MIT License](https://github.com/x51xxx/codex-mcp-tool/blob/main/LICENSE) |
+🔧 [Contribute](https://github.com/x51xxx/codex-mcp-tool) |
+📦 [NPM](https://www.npmjs.com/package/@cexll/codex-mcp-server) |
 ⭐ [Star on GitHub](https://github.com/x51xxx/codex-mcp-tool)
 EOF
 

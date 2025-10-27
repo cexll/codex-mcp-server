@@ -346,7 +346,7 @@ Test connectivity:
 
 ```bash
 # One-time setup
-claude mcp add codex-cli -- npx -y @trishchuk/codex-mcp-tool
+claude mcp add codex-cli -- npx -y @cexll/codex-mcp-server
 
 # Usage
 claude
@@ -360,7 +360,7 @@ const client = new MCPClient({
   servers: {
     'codex-cli': {
       command: 'npx',
-      args: ['-y', '@trishchuk/codex-mcp-tool'],
+      args: ['-y', '@cexll/codex-mcp-server'],
     },
   },
 });

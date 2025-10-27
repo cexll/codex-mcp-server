@@ -56,13 +56,13 @@ export const versionTool: UnifiedTool = {
 - Codex CLI: ${codexVersion.trim()}
 - Node.js: ${nodeVersion}
 - Platform: ${platform}
-- MCP Server: @trishchuk/codex-mcp-tool v1.0.6`;
+- MCP Server: @cexll/codex-mcp-server v1.0.6`;
     } catch (error) {
       return `**System Information:**
 - Codex CLI: Not installed or not accessible
 - Node.js: ${process.version}
 - Platform: ${process.platform}
-- MCP Server: @trishchuk/codex-mcp-tool v1.0.6
+- MCP Server: @cexll/codex-mcp-server v1.0.6
 
 *Note: Install Codex CLI with: npm install -g @openai/codex*`;
     }

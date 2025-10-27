@@ -3,11 +3,11 @@ name: Release
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - "v*.*.*"
   workflow_dispatch:
     inputs:
       version:
-        description: 'Release version (e.g., 1.0.0)'
+        description: "Release version (e.g., 1.0.0)"
         required: true
         type: string
 
@@ -18,37 +18,37 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          registry-url: 'https://registry.npmjs.org'
-          cache: 'npm'
-      
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+          cache: "npm"
+
       - name: Verify package name
         run: |
           PACKAGE_NAME=$(node -p "require('./package.json').name")
-          if [ "$PACKAGE_NAME" != "@trishchuk/codex-mcp-tool" ]; then
-            echo "❌ Package name mismatch. Expected @trishchuk/codex-mcp-tool, got $PACKAGE_NAME"
+          if [ "$PACKAGE_NAME" != "@cexll/codex-mcp-server" ]; then
+            echo "❌ Package name mismatch. Expected @cexll/codex-mcp-server, got $PACKAGE_NAME"
             exit 1
           fi
-      
+
       - name: Install dependencies
         run: npm ci
-      
+
       - name: Run tests and build
         run: |
           npm run lint
           npm run build
           npm test || true
-      
+
       - name: Verify build output
         run: |
           if [ ! -f "dist/index.js" ]; then
@@ -56,7 +56,7 @@ jobs:
             exit 1
           fi
           echo "✅ Build output verified"
-      
+
       - name: Create tarball and check size
         run: |
           npm pack --dry-run
@@ -65,13 +65,13 @@ jobs:
           if [ $SIZE -gt 10485760 ]; then
             echo "⚠️ Warning: Package size exceeds 10MB"
           fi
-      
+
       - name: Publish to npm
         run: |
           npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
@@ -80,20 +80,20 @@ jobs:
           prerelease: ${{ contains(github.ref, '-beta') || contains(github.ref, '-alpha') }}
           body: |
             ## 🚀 Codex MCP Tool Release
-            
+
             ### Installation
             ```bash
             # Claude Code
-            claude mcp add codex-cli -- npx -y @trishchuk/codex-mcp-tool
-            
+            claude mcp add codex-cli -- npx -y @cexll/codex-mcp-server
+
             # Claude Desktop
-            npm install -g @trishchuk/codex-mcp-tool
+            npm install -g @cexll/codex-mcp-server
             ```
-            
+
             ### What's Changed
             See below for the full changelog.
-            
+
             ### Links
-            - 📦 [NPM Package](https://www.npmjs.com/package/@trishchuk/codex-mcp-tool)
+            - 📦 [NPM Package](https://www.npmjs.com/package/@cexll/codex-mcp-server)
             - 📖 [Documentation](https://x51xxx.github.io/codex-mcp-tool/)
             - 🐛 [Report Issues](https://github.com/x51xxx/codex-mcp-tool/issues)

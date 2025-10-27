@@ -270,7 +270,7 @@ During long tests, monitor:
 # GitHub Actions example
 - name: Test MCP timeout handling
   run: |
-    npx @trishchuk/codex-mcp-tool << EOF
+    npx @cexll/codex-mcp-server << EOF
     {
       "method": "tools/call",
       "params": {
