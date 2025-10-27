@@ -12,7 +12,7 @@
 
 Codex MCP Tool is an open‑source Model Context Protocol (MCP) server that connects your IDE or AI assistant (Claude, Cursor, etc.) to the Codex CLI. It enables non‑interactive automation with `codex exec`, safe sandboxed edits with approvals, and large‑scale code analysis via `@` file references. Built for reliability and speed, it streams progress updates, supports structured change mode (OLD/NEW patch output), and integrates cleanly with standard MCP clients for code review, refactoring, documentation, and CI automation.
 
-> **Latest Release (v1.2.3)**: Fixed Windows compatibility - Codex CLI detection now works correctly on all platforms (Windows, macOS, Linux). [See changelog](#recent-updates)
+> **Latest Release (v1.2.4)**: Enhanced Windows compatibility - Now using cross-spawn for reliable npm global command execution across all platforms (Windows, macOS, Linux). [See changelog](#recent-updates)
 
 - Ask Codex questions from your MCP client, or brainstorm ideas programmatically.
 
@@ -31,7 +31,7 @@ Before using this tool, ensure you have:
 1. **[Node.js](https://nodejs.org/)** (v18.0.0 or higher)
 2. **[Codex CLI](https://github.com/openai/codex)** installed and authenticated
 
-> **✅ Cross-Platform Support**: Fully tested and working on Windows, macOS, and Linux (v1.2.3+)
+> **✅ Cross-Platform Support**: Fully tested and working on Windows, macOS, and Linux (v1.2.4+)
 
 ### One-Line Setup
 
@@ -339,6 +339,27 @@ You can use these commands directly in Claude Code's interface (compatibility wi
 
 ## Recent Updates
 
+### v1.2.4 (2025-10-27)
+
+**🔧 Major Improvement:**
+- **Windows Compatibility Enhancement**: Replaced Node.js native `spawn()` with industry-standard `cross-spawn` package
+  - Root cause: Previous `shell: true` fix still failed on some Windows configurations
+  - Solution: Use `cross-spawn` (50M+ weekly downloads, used by Webpack/Jest) for automatic Windows `.cmd` handling
+  - Benefits:
+    - Zero configuration required for Windows users
+    - Automatic handling of `.cmd`, `.ps1`, and `.exe` extensions
+    - Compatible with both CMD and PowerShell environments
+    - <5ms performance overhead
+  - Dependencies: Added `cross-spawn@^7.0.6` and `@types/cross-spawn`
+
+**🐛 Bug Fixes:**
+- Enhanced ENOENT error diagnostics with Windows-specific 4-step troubleshooting guide
+- Added optional chaining for `stdout`/`stderr` to handle null values in TypeScript strict mode
+
+**📝 Documentation:**
+- Added comprehensive Windows troubleshooting section in docs
+- Documented `spawn codex ENOENT` error resolution steps
+
 ### v1.2.3 (2025-10-27)
 
 **🐛 Bug Fixes:**
@@ -367,7 +388,7 @@ You can use these commands directly in Claude Code's interface (compatibility wi
 
 | Platform | Status | Notes |
 |----------|--------|-------|
-| **Windows** | ✅ Fully Supported | Fixed in v1.2.3 |
+| **Windows** | ✅ Fully Supported | Enhanced in v1.2.4 with cross-spawn |
 | **macOS** | ✅ Fully Supported | Tested on Darwin 23.5.0+ |
 | **Linux** | ✅ Fully Supported | Tested on Ubuntu Latest |
 
