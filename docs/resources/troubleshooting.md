@@ -258,6 +258,48 @@ sudo npm install -g @cexll/codex-mcp-server --unsafe-perm
 
 ### Windows
 
+#### "unknown option '-y'" - NPX flag not recognized
+
+**Problem:** When running `claude mcp add codex-cli -- npx -y @cexll/codex-mcp-server`, you see:
+```
+error: unknown option '-y'
+```
+
+**Root Cause:** The `-y` flag may not be properly passed through the `claude mcp add` command on Windows, or there's a parameter parsing issue with certain npm/npx versions.
+
+**Solutions (in order of recommendation):**
+
+1. **Use full parameter name:**
+```bash
+claude mcp add codex-cli -- npx --yes @cexll/codex-mcp-server
+```
+
+2. **Omit the auto-confirm flag:**
+```bash
+claude mcp add codex-cli -- npx @cexll/codex-mcp-server
+```
+When prompted by npx, type `y` and press Enter.
+
+3. **Global installation (most stable):**
+```bash
+npm install -g @cexll/codex-mcp-server
+claude mcp add codex-cli -- codex-mcp
+```
+
+4. **Manual configuration:**
+Edit `%APPDATA%\Claude\claude_code_config.json`:
+```json
+{
+  "mcpServers": {
+    "codex-cli": {
+      "command": "npx",
+      "args": ["--yes", "@cexll/codex-mcp-server"]
+    }
+  }
+}
+```
+Then restart Claude Code.
+
 #### "spawn codex ENOENT" - Command not found (v1.2.3+ Fixed)
 
 **Problem:** Windows reports "Error: spawn codex ENOENT" even though Codex CLI is installed.

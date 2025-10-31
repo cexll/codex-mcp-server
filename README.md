@@ -39,6 +39,19 @@ Before using this tool, ensure you have:
 claude mcp add codex-cli -- npx -y @cexll/codex-mcp-server
 ```
 
+> **Windows Users**: If you encounter `unknown option '-y'` error, use one of these alternatives:
+> ```bash
+> # Option 1: Use full parameter name
+> claude mcp add codex-cli -- npx --yes @cexll/codex-mcp-server
+>
+> # Option 2: Omit the flag (npx will prompt for confirmation)
+> claude mcp add codex-cli -- npx @cexll/codex-mcp-server
+>
+> # Option 3: Global installation (most stable)
+> npm install -g @cexll/codex-mcp-server
+> claude mcp add codex-cli -- codex-mcp
+> ```
+
 ### Verify Installation
 
 Type `/mcp` inside Claude Code to verify the Codex MCP is active.
@@ -57,6 +70,8 @@ If you already have it configured in Claude Desktop:
   "args": ["-y", "@cexll/codex-mcp-server"]
 }
 ```
+
+> **Windows Note**: If experiencing issues with `-y`, replace with `"--yes"` or remove the flag entirely.
 
 2. Import to Claude Code:
 
@@ -82,6 +97,10 @@ Add this configuration to your Claude Desktop config file:
   }
 }
 ```
+
+> **Windows Compatibility**: If you see `unknown option '-y'` error, update the args to:
+> - `"args": ["--yes", "@cexll/codex-mcp-server"]` (full parameter name), or
+> - `"args": ["@cexll/codex-mcp-server"]` (omit the flag)
 
 ### For Global Installation
 
