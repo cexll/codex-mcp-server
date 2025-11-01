@@ -20,4 +20,4 @@ By default, Codex can modify files in your current working directory (Auto mode)
 
 ### Does it work on Windows?
 
-Running Codex directly on Windows may work, but is not officially supported. We recommend using [Windows Subsystem for Linux (WSL2)](https://learn.microsoft.com/en-us/windows/wsl/install).
+Yes. Codex MCP Tool v1.2.4+ is fully supported on Windows 10/11 using Windows Terminal (PowerShell or Command Prompt). Follow the [Windows setup checklist](installation#windows-setup-checklist) before adding the server. Prefer a Linux environment? You can still run everything inside [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install).

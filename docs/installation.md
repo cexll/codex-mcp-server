@@ -10,6 +10,37 @@ Multiple ways to install the Codex MCP Tool, depending on your needs.
   - Follow the [Codex CLI installation guide](https://codex.openai.com/docs/getting-started)
   - Run `codex login` to authenticate
 
+### Windows setup checklist
+
+::: tip Windows support
+Codex MCP Tool v1.2.4+ is fully validated on Windows 10/11 using Windows Terminal with PowerShell 7 or Command Prompt.
+:::
+
+1. **Install Node.js 18+** using the official Windows installer. Make sure "Add to PATH" stays enabled.
+2. **Install & authenticate the Codex CLI** from an elevated PowerShell session:
+
+```powershell
+npm install -g @openai/codex
+codex login
+```
+
+3. **Ensure npm's global bin directory is on PATH** (typically `C:\Users\<username>\AppData\Roaming\npm`). If it's missing, add it via System → Environment Variables and restart the terminal:
+
+```powershell
+npm config get prefix
+where codex
+```
+
+4. **Allow PowerShell to run npm shims** if you see execution policy warnings:
+
+```powershell
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+```
+
+5. Launch the commands below from Windows Terminal (PowerShell or CMD). No extra `.cmd` suffixes are required—v1.2.4+ ships with `cross-spawn` for native Windows command resolution.
+
+Prefer Linux tooling? The same steps work inside WSL2 if you already have it configured.
+
 ## Method 1: NPX (Recommended)
 
 No installation needed - runs directly:
@@ -93,7 +124,15 @@ node dist/index.js
 
 ## Verification
 
-Test your installation by running a simple tool:
+On Windows, double-check that the CLI resolves correctly before connecting your MCP client:
+
+```powershell
+where codex
+codex --version
+npx -y @cexll/codex-mcp-server --help
+```
+
+Once the commands above succeed, test your installation by running a simple tool:
 
 ```json
 {
