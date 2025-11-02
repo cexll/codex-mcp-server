@@ -257,6 +257,50 @@ If you encounter `❌ Permission Error: Operation blocked by sandbox policy`:
 npm install -g @cexll/codex-mcp-server@latest
 ```
 
+#### Common Issues
+
+**Issue 1: MCP Tool Timeout Error**
+
+If you encounter timeout errors when using Codex MCP tools:
+
+```bash
+# Set the MCP tool timeout environment variable (in milliseconds)
+export MCP_TOOL_TIMEOUT=36000000  # 10 hours
+
+# For Windows (PowerShell):
+$env:MCP_TOOL_TIMEOUT=36000000
+
+# For Windows (CMD):
+set MCP_TOOL_TIMEOUT=36000000
+```
+
+Add this to your shell profile (`~/.bashrc`, `~/.zshrc`, or PowerShell profile) to make it permanent.
+
+**Issue 2: Codex Cannot Write Files**
+
+If Codex responds with permission errors like "Operation blocked by sandbox policy" or "rejected by user approval settings", configure your Codex CLI settings:
+
+Create or edit `~/.codex/config.toml`:
+
+```toml
+# Dynamically generated Codex configuration
+model = "gpt-5-codex"
+model_reasoning_effort = "high"
+model_reasoning_summary = "detailed"
+approval_policy = "never"
+sandbox_mode = "danger-full-access"
+disable_response_storage = true
+network_access = true
+```
+
+**⚠️ Security Warning**: The `danger-full-access` mode grants Codex full file system access. Only use this configuration in trusted environments and for tasks you fully understand.
+
+**Configuration File Locations:**
+- **macOS/Linux**: `~/.codex/config.toml`
+- **Windows**: `%USERPROFILE%\.codex\config.toml`
+
+After updating the configuration, restart your MCP client (Claude Desktop, Claude Code, etc.).
+
 #### Basic Examples
 
 - `use codex to create and run a Python script that processes data`
