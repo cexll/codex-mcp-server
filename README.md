@@ -440,6 +440,10 @@ You can use these commands directly in Claude Code's interface (compatibility wi
 - Node.js v18.0.0 or higher
 - Codex CLI installed and authenticated (`npm install -g @openai/codex`)
 
+## Phone pairing (optional)
+
+Companion docs: [Build Remote Agent pairing](docs/gbr.md). Run `gbr-agent pair && gbr-agent run` beside this MCP server if you want a phone spectator on `127.0.0.1:8788` / `gbr-mcp`. Independent product. Not affiliated with xAI or SpaceX.
+
 ## Acknowledgments
 
 This project was inspired by the excellent work from [jamubc/gemini-mcp-tool](https://github.com/jamubc/gemini-mcp-tool). Special thanks to [@jamubc](https://github.com/jamubc) for the original MCP server architecture and implementation patterns.
